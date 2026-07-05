@@ -1,0 +1,219 @@
+# ==============================================================================
+# .GITIGNORE UNIVERSEL & PROFESSIONNEL
+# ==============================================================================
+# Ce fichier regroupe les exclusions standard pour la majorité des langages,
+# frameworks, systèmes d'exploitation et outils de développement.
+
+# ------------------------------------------------------------------------------
+# 1. SYSTÈMES D'EXPLOITATION (OS)
+# ------------------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs.top
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.sys
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ------------------------------------------------------------------------------
+# 2. ENVIRONNEMENTS DE DÉVELOPPEMENT (IDEs & ÉDITEURS)
+# ------------------------------------------------------------------------------
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+*.code-workspace
+.history/
+
+# IntelliJ / JetBrains (WebStorm, PhpStorm, PyCharm, RubyMine, CLion, etc.)
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+cmake-build-*/
+
+# Eclipse
+.metadata/
+bin/
+tmp/
+*.tmp
+*.bak
+.classpath
+.project
+.settings/
+*.launch
+
+# Sublime Text / TextMate
+*.sublime-project
+*.sublime-workspace
+*.tmproj
+*.tmproject
+
+# Éditeurs en ligne de commande (Vim, Emacs)
+.*.sw[a-z]
+*.un~
+Session.vim
+.netrwhist
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+elc/
+auto-save-list/
+tramp
+.\#*
+
+# ------------------------------------------------------------------------------
+# 3. FICHIERS D'ENVIRONNEMENT ET SECRETS (SÉCURITÉ)
+# ------------------------------------------------------------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.*
+*.secret
+*.pem
+*.cert
+*.key
+*.pub
+*.pfx
+*.p12
+credentials.json
+.vscdb
+
+# ------------------------------------------------------------------------------
+# 4. COMPILATION, ARCHIVES ET PACKAGES (GÉNÉRIQUE)
+# ------------------------------------------------------------------------------
+# Archives et compressions
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.tgz
+
+# Logs et rapports de crash
+*.log
+*.log.*
+log/
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Fichiers de diagnostic, couverture et build temporaires
+.cache/
+.sass-cache/
+.eslintcache
+.stylelintcache
+.prettiercache
+.parcel-cache/
+.turbo/
+.next/
+.nuxt/
+dist/
+build/
+target/
+obj/
+
+# ------------------------------------------------------------------------------
+# 5. WEBS / JAVASCRIPT / NODE.JS
+# ------------------------------------------------------------------------------
+node_modules/
+jspm_packages/
+.npm/
+.yarn/
+!.yarn/releases/
+!.yarn/plugins/
+.pnpm-store/
+bower_components/
+
+# ------------------------------------------------------------------------------
+# 6. PYTHON
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv/
+venv/
+ENV/
+env/
+
+# ------------------------------------------------------------------------------
+# 7. PHP / COMPOSER
+# ------------------------------------------------------------------------------
+vendor/
+composer.phar
+.phpunit.result.cache
+
+# ------------------------------------------------------------------------------
+# 8. JAVA / MAVEN / GRADLE
+# ------------------------------------------------------------------------------
+.gradle/
+/build/
+!/gradle/wrapper/gradle-wrapper.jar
+.mtj.tmp/
+*.class
+*.war
+*.ear
+.factorypath
+
+# ------------------------------------------------------------------------------
+# 9. DOCKER / CONTENEURS
+# ------------------------------------------------------------------------------
+.docker/
+docker-compose.override.yml
+
+# ------------------------------------------------------------------------------
+# 10. BASES DE DONNÉES
+# ------------------------------------------------------------------------------
+*.sqlite
+*.sqlite3
+*.db
+*.sql
+*.dump
