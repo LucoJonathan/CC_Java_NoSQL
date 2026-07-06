@@ -21,7 +21,7 @@
 - @InjectMocks --> 
 - @BeforeEach --> 
 - @Test --> 
-- 
+- @ExceptionHandler -->
 
 Une classe record est une classe générique qui possède des informations de base d'une classe
 
@@ -33,6 +33,8 @@ Passer en revue le dossier ressource afin de commenter toutes les lignes et les 
 Dans les controlleur il ne faut pas que des dto de base ?
 
 Amélioré le mot de passe
+
+Ajouter des mappers pour que  Controleur (DTO) --> Service (DTO) Mapping (Model) --> Repository (Model) -- Mapping(model) Service (DTO) --> Controleur(DTO)
 
 Vérifier si le mdp est bien hasher
 
