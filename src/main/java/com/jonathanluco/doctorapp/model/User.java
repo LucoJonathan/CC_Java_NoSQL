@@ -3,20 +3,37 @@ package com.jonathanluco.doctorapp.model;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "users")
-public class User {
+/**
+ * Classe parent représentant un utilisateur du système.
+ *
+ * Cette classe contient les champs communs à tous les utilisateurs
+ * (Patient et Medecin). Elle n'est pas marquée @Document car
+ * le mapping hérité se fait au niveau des sous-classes.
+ *
+ * @author Jonathan Luco
+ * @version 1.0
+ */
+public abstract class User {
 
+    /**
+     * Identifiant MongoDB automatiquement généré.
+     */
     @Id
-    private String id;
+    protected String id;
 
+    /**
+     * Nom d'utilisateur unique pour l'authentification.
+     */
     @NotBlank
     @Indexed(unique = true)
-    private String username;
+    protected String username;
 
+    /**
+     * Mot de passe chiffré.
+     */
     @NotBlank
-    private String password;
+    protected String password;
 
     public String getId() {
         return id;

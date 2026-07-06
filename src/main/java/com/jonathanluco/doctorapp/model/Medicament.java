@@ -4,12 +4,28 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * Classe représentant un Médicament.
+ * MongoDB collection: "medicaments"
+ *
+ * Cette classe encapsule les informations d'un médicament disponible
+ * pour les prescriptions dans les consultations.
+ *
+ * @author Jonathan Luco
+ * @version 1.0
+ */
 @Document(collection = "medicaments")
 public class Medicament {
 
+    /**
+     * Code unique du médicament - Clé primaire.
+     */
     @Id
     private String code;
 
+    /**
+     * Libellé/Nom commercial du médicament.
+     */
     @NotBlank
     private String libelle;
 
