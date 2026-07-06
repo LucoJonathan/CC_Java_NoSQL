@@ -6,8 +6,6 @@ package com.jonathanluco.doctorapp.model;
  * Cette classe établit la relation Many-to-Many entre Consultation et Medicament,
  * avec un attribut supplémentaire "nbPrise" indiquant le nombre de prises prescrites.
  *
- * @author Jonathan Luco
- * @version 1.0
  */
 public class Prescription {
 

@@ -20,8 +20,6 @@ import java.util.List;
  * Relation Medecin → Consultation : 0,N (Donne)
  * Relation Medicament ↔ Consultation : 0,N (Prescrit)
  *
- * @author Jonathan Luco
- * @version 1.0
  */
 @Document(collection = "consultations")
 public class Consultation {

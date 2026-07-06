@@ -12,8 +12,6 @@ import jakarta.validation.constraints.NotBlank;
  * Le numéro de sécurité sociale (numeroSS) est unique mais pas l'ID primaire MongoDB.
  * L'ID primaire MongoDB est hérité de User.
  *
- * @author Jonathan Luco
- * @version 1.0
  */
 @Document(collection = "patients")
 public class Patient extends User {

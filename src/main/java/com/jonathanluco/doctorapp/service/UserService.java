@@ -16,9 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Service pour les opérations utilisateur.
  * Gère la création et la récupération des utilisateurs (Patients et Médecins).
- * 
- * @author Jonathan Luco
- * @version 1.0
+ *
  */
 @Service
 public class UserService {

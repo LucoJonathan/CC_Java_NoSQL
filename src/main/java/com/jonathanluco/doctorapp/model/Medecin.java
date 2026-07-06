@@ -12,8 +12,6 @@ import jakarta.validation.constraints.NotBlank;
  * Le matricule est unique mais pas l'ID primaire MongoDB.
  * L'ID primaire MongoDB est hérité de User.
  *
- * @author Jonathan Luco
- * @version 1.0
  */
 @Document(collection = "medecins")
 public class Medecin extends User {

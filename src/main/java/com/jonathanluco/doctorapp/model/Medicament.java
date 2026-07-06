@@ -11,8 +11,6 @@ import jakarta.validation.constraints.NotBlank;
  * Cette classe encapsule les informations d'un médicament disponible
  * pour les prescriptions dans les consultations.
  *
- * @author Jonathan Luco
- * @version 1.0
  */
 @Document(collection = "medicaments")
 public class Medicament {

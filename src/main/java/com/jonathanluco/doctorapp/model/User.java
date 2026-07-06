@@ -11,8 +11,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
  * (Patient et Medecin). Elle n'est pas marquée @Document car
  * le mapping hérité se fait au niveau des sous-classes.
  *
- * @author Jonathan Luco
- * @version 1.0
  */
 public abstract class User {
 

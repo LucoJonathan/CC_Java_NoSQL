@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
  * Repository pour l'entité Patient.
  * Fournit les opérations CRUD et des requêtes personnalisées sur la collection "patients".
  *
- * @author Jonathan Luco
- * @version 1.0
  */
 @Repository
 public interface PatientRepository extends MongoRepository<Patient, String> {

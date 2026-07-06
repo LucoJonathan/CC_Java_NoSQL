@@ -4,10 +4,7 @@ import com.jonathanluco.doctorapp.dto.PatientDTO;
 import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.service.PatientService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +14,6 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Contrôleur REST pour les opérations sur les Patients.
- * Expose les endpoints pour la gestion CRUD des patients.
- */
 @RestController
 @RequestMapping("/api/patients")
 @Tag(name = "Patients", description = "Endpoints pour la gestion des patients")
