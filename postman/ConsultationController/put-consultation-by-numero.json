@@ -1,0 +1,32 @@
+{
+  "info": {
+    "name": "ConsultationController - PUT /api/consultations/{numeroConsultation}",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "PUT /api/consultations/{{numeroConsultation}}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"numeroConsultation\": \"CONS001\",\n  \"date\": \"2026-07-07T11:00:00\",\n  \"patientNumeroSS\": \"123456789012\",\n  \"medecinMatricule\": \"DOC001\",\n  \"prescriptions\": [\n    {\n      \"codeMedicament\": \"MED001\",\n      \"nbPrise\": 2\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/consultations/{{numeroConsultation}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "consultations", "{{numeroConsultation}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" },
+    { "key": "numeroConsultation", "value": "CONS001" }
+  ]
+}

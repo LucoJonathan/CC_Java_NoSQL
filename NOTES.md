@@ -28,7 +28,7 @@ Une classe record est une classe générique qui possède des informations de ba
 
 NOTE POUR AMeLIORATION : 
 
-Passer en revue le dossier ressource afin de commenter toutes les lignes et les comprendre
+Passer en revue le dossier ressource afin de commenter toutes les lignes et les comprend
 
 Vérifier que la javadoc est partout
 

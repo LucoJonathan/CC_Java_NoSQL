@@ -1,0 +1,32 @@
+{
+  "info": {
+    "name": "MedicamentController - PUT /api/medicaments/{code}",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "PUT /api/medicaments/{{codeMedicament}}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"MED001\",\n  \"libelle\": \"Aspirine 1000mg\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/medicaments/{{codeMedicament}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "medicaments", "{{codeMedicament}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" },
+    { "key": "codeMedicament", "value": "MED001" }
+  ]
+}

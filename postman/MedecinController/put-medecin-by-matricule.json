@@ -1,0 +1,32 @@
+{
+  "info": {
+    "name": "MedecinController - PUT /api/medecins/{matricule}",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "PUT /api/medecins/{{matricule}}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"matricule\": \"DOC001\",\n  \"nomMedecin\": \"Dr Martin Updated\",\n  \"username\": \"dr_martin\",\n  \"password\": \"Passw0rd!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/medecins/{{matricule}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "medecins", "{{matricule}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" },
+    { "key": "matricule", "value": "DOC001" }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "PatientController - POST /api/patients",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "POST /api/patients",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"numeroSS\": \"123456789012\",\n  \"nomPatient\": \"Jean Dupont\",\n  \"username\": \"jean_dupont\",\n  \"password\": \"Passw0rd!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/patients",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "patients"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" }
+  ]
+}

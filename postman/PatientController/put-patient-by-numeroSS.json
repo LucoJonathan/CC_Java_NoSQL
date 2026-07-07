@@ -1,0 +1,32 @@
+{
+  "info": {
+    "name": "PatientController - PUT /api/patients/{numeroSS}",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "PUT /api/patients/{{numeroSS}}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"numeroSS\": \"123456789012\",\n  \"nomPatient\": \"Jean Dupont Modifie\",\n  \"username\": \"jean_dupont\",\n  \"password\": \"Passw0rd!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/patients/{{numeroSS}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "patients", "{{numeroSS}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" },
+    { "key": "numeroSS", "value": "123456789012" }
+  ]
+}

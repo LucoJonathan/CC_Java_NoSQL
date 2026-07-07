@@ -1,0 +1,27 @@
+{
+  "info": {
+    "name": "MedicamentController - DELETE /api/medicaments/{code}",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "DELETE /api/medicaments/{{codeMedicament}}",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/medicaments/{{codeMedicament}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "medicaments", "{{codeMedicament}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" },
+    { "key": "codeMedicament", "value": "MED001" }
+  ]
+}

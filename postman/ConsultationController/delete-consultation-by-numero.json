@@ -1,0 +1,27 @@
+{
+  "info": {
+    "name": "ConsultationController - DELETE /api/consultations/{numeroConsultation}",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "DELETE /api/consultations/{{numeroConsultation}}",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/consultations/{{numeroConsultation}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "consultations", "{{numeroConsultation}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" },
+    { "key": "numeroConsultation", "value": "CONS001" }
+  ]
+}
