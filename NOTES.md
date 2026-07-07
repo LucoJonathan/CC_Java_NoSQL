@@ -40,6 +40,8 @@ Vérifier les repository car ils m'ont l'air grave suspect
 
 Se renseigner sur le NoSQL de manière général et son application en Java
 
+Voir comment fonctionne le sonnar
+
 
 A vérif:
 
