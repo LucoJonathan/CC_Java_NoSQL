@@ -5,6 +5,7 @@ import com.jonathanluco.doctorapp.mapper.PatientMapper;
 import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,12 @@ public class PatientService {
     @Autowired
     private PatientMapper patientMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public PatientDTO createPatient(PatientDTO patientDTO) {
         Patient patient = patientMapper.toModel(patientDTO);
+        patient.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
         return patientMapper.toDto(patientRepository.save(patient));
     }
 
@@ -44,6 +49,7 @@ public class PatientService {
         Patient patient = patientRepository.findByNumeroSS(numeroSS);
         if (patient != null) {
             patientMapper.updateModel(patient, patientDetails);
+            patient.setPassword(passwordEncoder.encode(patientDetails.getPassword()));
             return patientMapper.toDto(patientRepository.save(patient));
         }
         return null;

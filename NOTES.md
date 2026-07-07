@@ -30,17 +30,9 @@ NOTE POUR AMeLIORATION :
 
 Passer en revue le dossier ressource afin de commenter toutes les lignes et les comprendre
 
-Dans les controlleur il ne faut pas que des dto de base ?
-
-Amélioré le mot de passe
-
-Vérifier si le mdp est bien hasher
-
 Vérifier que la javadoc est partout
 
 Tester tout les endpoints sur postman
-
-Vérifier que les email sont bien unique
 
 Revérifier l'intégralité des fichier, des commentaire, des messages d'erreur, du nom des variables
 
@@ -48,7 +40,6 @@ Vérifier les repository car ils m'ont l'air grave suspect
 
 Se renseigner sur le NoSQL de manière général et son application en Java
 
-Type de retour ne doit-il pas être un DTO également ?
 
 A vérif:
 

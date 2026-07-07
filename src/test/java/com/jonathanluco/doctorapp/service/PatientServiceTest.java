@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,9 @@ class PatientServiceTest {
     @Mock
     private PatientMapper patientMapper;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private PatientService patientService;
 
@@ -49,6 +53,7 @@ class PatientServiceTest {
     @DisplayName("Devrait créer un patient avec succès")
     void testCreatePatient() {
         when(patientMapper.toModel(any(PatientDTO.class))).thenReturn(patient);
+        when(passwordEncoder.encode("password123")).thenReturn("hashed-password123");
         when(patientRepository.save(any(Patient.class))).thenReturn(patient);
         when(patientMapper.toDto(any(Patient.class))).thenReturn(patientDTO);
 
@@ -105,6 +110,7 @@ class PatientServiceTest {
         PatientDTO updatedData = new PatientDTO("123456789012", "Jean Dupont Modifié", "jean_dupont", "newpassword");
         Patient updatedPatient = new Patient("123456789012", "Jean Dupont Modifié", "jean_dupont", "newpassword");
         when(patientRepository.findByNumeroSS("123456789012")).thenReturn(patient);
+        when(passwordEncoder.encode("newpassword")).thenReturn("hashed-newpassword");
         when(patientRepository.save(any(Patient.class))).thenReturn(updatedPatient);
         doNothing().when(patientMapper).updateModel(patient, updatedData);
         when(patientMapper.toDto(updatedPatient)).thenReturn(updatedData);
