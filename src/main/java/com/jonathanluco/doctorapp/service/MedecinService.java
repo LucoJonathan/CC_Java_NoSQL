@@ -1,14 +1,18 @@
 package com.jonathanluco.doctorapp.service;
 
 import com.jonathanluco.doctorapp.dto.MedecinDTO;
+import com.jonathanluco.doctorapp.exception.DuplicateResourceException;
 import com.jonathanluco.doctorapp.mapper.MedecinMapper;
 import com.jonathanluco.doctorapp.model.Medecin;
+import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.repository.MedecinRepository;
+import com.jonathanluco.doctorapp.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -21,9 +25,13 @@ public class MedecinService {
     private MedecinMapper medecinMapper;
 
     @Autowired
+    private PatientRepository patientRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public MedecinDTO createMedecin(MedecinDTO medecinDTO) {
+        ensureEmailIsAvailable(medecinDTO.getEmail(), null);
         Medecin medecin = medecinMapper.toModel(medecinDTO);
         medecin.setPassword(passwordEncoder.encode(medecinDTO.getPassword()));
         return medecinMapper.toDto(medecinRepository.save(medecin));
@@ -48,6 +56,7 @@ public class MedecinService {
     public MedecinDTO updateMedecin(String matricule, MedecinDTO medecinDetails) {
         Medecin medecin = medecinRepository.findByMatricule(matricule);
         if (medecin != null) {
+            ensureEmailIsAvailable(medecinDetails.getEmail(), medecin.getId());
             medecinMapper.updateModel(medecin, medecinDetails);
             medecin.setPassword(passwordEncoder.encode(medecinDetails.getPassword()));
             return medecinMapper.toDto(medecinRepository.save(medecin));
@@ -62,5 +71,16 @@ public class MedecinService {
             return true;
         }
         return false;
+    }
+
+    private void ensureEmailIsAvailable(String email, String currentId) {
+        Medecin existingMedecin = medecinRepository.findByEmail(email);
+        if (existingMedecin != null && !Objects.equals(existingMedecin.getId(), currentId)) {
+            throw new DuplicateResourceException("Cet email existe déjà");
+        }
+        Patient existingPatient = patientRepository.findByEmail(email);
+        if (existingPatient != null && !Objects.equals(existingPatient.getId(), currentId)) {
+            throw new DuplicateResourceException("Cet email existe déjà");
+        }
     }
 }

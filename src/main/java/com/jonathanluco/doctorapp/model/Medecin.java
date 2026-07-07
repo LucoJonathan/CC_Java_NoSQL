@@ -33,10 +33,11 @@ public class Medecin extends User {
         super();
     }
 
-    public Medecin(String matricule, String nomMedecin, String username, String password) {
+    public Medecin(String matricule, String nomMedecin, String email, String username, String password) {
         super();
         this.matricule = matricule;
         this.nomMedecin = nomMedecin;
+        this.setEmail(email);
         this.setUsername(username);
         this.setPassword(password);
     }

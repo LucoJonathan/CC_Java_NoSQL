@@ -2,6 +2,7 @@ package com.jonathanluco.doctorapp.service;
 
 import com.jonathanluco.doctorapp.dto.PatientDTO;
 import com.jonathanluco.doctorapp.mapper.PatientMapper;
+import com.jonathanluco.doctorapp.repository.MedecinRepository;
 import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.repository.PatientRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,9 @@ class PatientServiceTest {
     private PatientMapper patientMapper;
 
     @Mock
+    private MedecinRepository medecinRepository;
+
+    @Mock
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
@@ -45,13 +49,15 @@ class PatientServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        patient = new Patient("123456789012", "Jean Dupont", "jean_dupont", "password123");
-        patientDTO = new PatientDTO("123456789012", "Jean Dupont", "jean_dupont", "password123");
+        patient = new Patient("123456789012", "Jean Dupont", "jean.dupont@example.com", "jean_dupont", "password123");
+        patientDTO = new PatientDTO("123456789012", "Jean Dupont", "jean_dupont", "jean.dupont@example.com", "password123");
     }
 
     @Test
     @DisplayName("Devrait créer un patient avec succès")
     void testCreatePatient() {
+        when(patientRepository.findByEmail("jean.dupont@example.com")).thenReturn(null);
+        when(medecinRepository.findByEmail("jean.dupont@example.com")).thenReturn(null);
         when(patientMapper.toModel(any(PatientDTO.class))).thenReturn(patient);
         when(passwordEncoder.encode("password123")).thenReturn("hashed-password123");
         when(patientRepository.save(any(Patient.class))).thenReturn(patient);
@@ -91,8 +97,8 @@ class PatientServiceTest {
     @Test
     @DisplayName("Devrait récupérer tous les patients")
     void testGetAllPatients() {
-        Patient patient2 = new Patient("987654321098", "Marie Martin", "marie_martin", "password456");
-        PatientDTO patientDTO2 = new PatientDTO("987654321098", "Marie Martin", "marie_martin", "password456");
+        Patient patient2 = new Patient("987654321098", "Marie Martin", "marie.martin@example.com", "marie_martin", "password456");
+        PatientDTO patientDTO2 = new PatientDTO("987654321098", "Marie Martin", "marie_martin", "marie.martin@example.com", "password456");
         when(patientRepository.findAll()).thenReturn(Arrays.asList(patient, patient2));
         when(patientMapper.toDto(patient)).thenReturn(patientDTO);
         when(patientMapper.toDto(patient2)).thenReturn(patientDTO2);
@@ -107,9 +113,11 @@ class PatientServiceTest {
     @Test
     @DisplayName("Devrait mettre à jour un patient")
     void testUpdatePatient() {
-        PatientDTO updatedData = new PatientDTO("123456789012", "Jean Dupont Modifié", "jean_dupont", "newpassword");
-        Patient updatedPatient = new Patient("123456789012", "Jean Dupont Modifié", "jean_dupont", "newpassword");
+        PatientDTO updatedData = new PatientDTO("123456789012", "Jean Dupont Modifié", "jean_dupont", "jean.dupont@example.com", "newpassword");
+        Patient updatedPatient = new Patient("123456789012", "Jean Dupont Modifié", "jean.dupont@example.com", "jean_dupont", "newpassword");
         when(patientRepository.findByNumeroSS("123456789012")).thenReturn(patient);
+        when(patientRepository.findByEmail("jean.dupont@example.com")).thenReturn(patient);
+        when(medecinRepository.findByEmail("jean.dupont@example.com")).thenReturn(null);
         when(passwordEncoder.encode("newpassword")).thenReturn("hashed-newpassword");
         when(patientRepository.save(any(Patient.class))).thenReturn(updatedPatient);
         doNothing().when(patientMapper).updateModel(patient, updatedData);

@@ -59,8 +59,8 @@ class ConsultationServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        patient = new Patient("123456789012", "Jean Dupont", "jean_dupont", "password123");
-        medecin = new Medecin("DOC001", "Dr. Martin", "dr_martin", "password123");
+        patient = new Patient("123456789012", "Jean Dupont", "jean.dupont@example.com", "jean_dupont", "password123");
+        medecin = new Medecin("DOC001", "Dr. Martin", "dr.martin@example.com", "dr_martin", "password123");
         consultation = new Consultation("CONS001", LocalDateTime.now());
         consultation.setPatientAssiste(patient);
         consultation.setMedecinDonne(medecin);

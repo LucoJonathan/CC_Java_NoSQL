@@ -19,11 +19,5 @@ public interface PatientRepository extends MongoRepository<Patient, String> {
      */
     Patient findByNumeroSS(String numeroSS);
 
-    /**
-     * Trouve un patient par son nom d'utilisateur.
-     *
-     * @param username le nom d'utilisateur
-     * @return le Patient ou null s'il n'existe pas
-     */
-    Patient findByUsername(String username);
+    Patient findByEmail(String email);
 }

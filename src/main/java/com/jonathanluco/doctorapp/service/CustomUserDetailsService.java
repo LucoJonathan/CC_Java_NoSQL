@@ -30,29 +30,29 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findUserByUsername(username);
+        User user = findUserByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException("User introuvable");
         }
 
         return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
+                .withUsername(user.getEmail())
                 .password(user.getPassword())
                 .authorities("ROLE_USER")
                 .build();
     }
 
-    private User findUserByUsername(String username) {
-        Patient patient = patientRepository.findByUsername(username);
+    private User findUserByEmail(String email) {
+        Patient patient = patientRepository.findByEmail(email);
         if (patient != null) {
             return patient;
         }
 
-        Medecin medecin = medecinRepository.findByUsername(username);
+        Medecin medecin = medecinRepository.findByEmail(email);
         if (medecin != null) {
             return medecin;
         }
 
-        return userRepository.findByUsername(username).orElse(null);
+        return userRepository.findByEmail(email).orElse(null);
     }
 }

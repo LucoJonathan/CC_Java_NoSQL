@@ -33,10 +33,11 @@ public class Patient extends User {
         super();
     }
 
-    public Patient(String numeroSS, String nomPatient, String username, String password) {
+    public Patient(String numeroSS, String nomPatient, String email, String username, String password) {
         super();
         this.numeroSS = numeroSS;
         this.nomPatient = nomPatient;
+        this.setEmail(email);
         this.setUsername(username);
         this.setPassword(password);
     }

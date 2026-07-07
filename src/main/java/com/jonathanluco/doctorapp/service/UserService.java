@@ -46,15 +46,16 @@ public class UserService {
      * @throws ResponseStatusException si le username existe déjà
      */
     public User create(UserRequest request) {
-        if (findByUsername(request.username()) != null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ce username existe déjà");
+        if (findByEmail(request.email()) != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Cet email existe déjà");
         }
 
         Patient patient = new Patient();
-        patient.setUsername(request.username());
+        patient.setEmail(request.email());
+        patient.setUsername(request.email());
         patient.setPassword(passwordEncoder.encode(request.password()));
         patient.setNumeroSS("UNKNOWN");
-        patient.setNomPatient("User - " + request.username());
+        patient.setNomPatient("User - " + request.email());
         return userRepository.save(patient);
     }
 
@@ -66,8 +67,8 @@ public class UserService {
      * @return l'utilisateur authentifié
      * @throws ResponseStatusException si authentification échoue
      */
-    public User authenticate(String username, String password) {
-        User user = findByUsername(username);
+    public User authenticate(String email, String password) {
+        User user = findByEmail(email);
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credentials invalides");
         }
@@ -86,23 +87,23 @@ public class UserService {
     }
 
     /**
-     * Récupère un utilisateur par son username.
+     * Récupère un utilisateur par son email.
      *
-     * @param username le nom d'utilisateur
+     * @param email l'email
      * @return l'utilisateur ou null s'il n'existe pas
      */
-    public User findByUsername(String username) {
-        Patient patient = userRepository.findByUsername(username);
+    public User findByEmail(String email) {
+        Patient patient = userRepository.findByEmail(email);
         if (patient != null) {
             return patient;
         }
 
-        Medecin medecin = medecinRepository.findByUsername(username);
+        Medecin medecin = medecinRepository.findByEmail(email);
         if (medecin != null) {
             return medecin;
         }
 
-        return legacyUserRepository.findByUsername(username).orElse(null);
+        return legacyUserRepository.findByEmail(email).orElse(null);
     }
 
     /**
@@ -127,7 +128,12 @@ public class UserService {
         Optional<Patient> patient = userRepository.findById(id);
         if (patient.isPresent()) {
             Patient p = patient.get();
-            p.setUsername(request.username());
+            User existing = findByEmail(request.email());
+            if (existing != null && !existing.getId().equals(id)) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Cet email existe déjà");
+            }
+            p.setEmail(request.email());
+            p.setUsername(request.email());
             p.setPassword(passwordEncoder.encode(request.password()));
             return userRepository.save(p);
         }

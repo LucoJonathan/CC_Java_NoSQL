@@ -2,6 +2,7 @@ package com.jonathanluco.doctorapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -24,6 +25,11 @@ public class PatientDTO {
     @Schema(description = "Nom d'utilisateur", example = "jean_dupont")
     private String username;
 
+    @NotBlank(message = "L'email ne peut pas être vide")
+    @Email(message = "Le format de l'email est invalide")
+    @Schema(description = "Email du patient (identifiant de connexion)", example = "jean.dupont@example.com")
+    private String email;
+
     @NotBlank(message = "Le mot de passe ne peut pas être vide")
     @Size(min = 8, message = "Le mot de passe doit contenir au moins 8 caracteres")
     @Pattern(
@@ -37,10 +43,11 @@ public class PatientDTO {
     public PatientDTO() {
     }
 
-    public PatientDTO(String numeroSS, String nomPatient, String username, String password) {
+    public PatientDTO(String numeroSS, String nomPatient, String username, String email, String password) {
         this.numeroSS = numeroSS;
         this.nomPatient = nomPatient;
         this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -66,6 +73,14 @@ public class PatientDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

@@ -23,10 +23,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest request) {
-        User user = userService.authenticate(request.username(), request.password());
+        User user = userService.authenticate(request.email(), request.password());
 
         UserDetails userDetails = org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
+                .withUsername(user.getEmail())
                 .password(user.getPassword())
                 .authorities("ROLE_USER")
                 .build();
