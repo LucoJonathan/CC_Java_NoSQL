@@ -2,13 +2,17 @@ package com.jonathanluco.doctorapp.service;
 
 import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.model.User;
+import com.jonathanluco.doctorapp.model.Medecin;
 import com.jonathanluco.doctorapp.dto.UserRequest;
+import com.jonathanluco.doctorapp.repository.MedecinRepository;
 import com.jonathanluco.doctorapp.repository.PatientRepository;
+import com.jonathanluco.doctorapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +29,12 @@ public class UserService {
     private PatientRepository userRepository;
 
     @Autowired
+    private MedecinRepository medecinRepository;
+
+    @Autowired
+    private UserRepository legacyUserRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     /**
@@ -36,7 +46,7 @@ public class UserService {
      * @throws ResponseStatusException si le username existe déjà
      */
     public User create(UserRequest request) {
-        if (userRepository.findByUsername(request.username()) != null) {
+        if (findByUsername(request.username()) != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Ce username existe déjà");
         }
 
@@ -82,7 +92,17 @@ public class UserService {
      * @return l'utilisateur ou null s'il n'existe pas
      */
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        Patient patient = userRepository.findByUsername(username);
+        if (patient != null) {
+            return patient;
+        }
+
+        Medecin medecin = medecinRepository.findByUsername(username);
+        if (medecin != null) {
+            return medecin;
+        }
+
+        return legacyUserRepository.findByUsername(username).orElse(null);
     }
 
     /**
