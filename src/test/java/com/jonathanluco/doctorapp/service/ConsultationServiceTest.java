@@ -1,10 +1,15 @@
 package com.jonathanluco.doctorapp.service;
 
+import com.jonathanluco.doctorapp.dto.ConsultationDTO;
+import com.jonathanluco.doctorapp.dto.PrescriptionDTO;
+import com.jonathanluco.doctorapp.mapper.ConsultationMapper;
+import com.jonathanluco.doctorapp.mapper.PrescriptionMapper;
 import com.jonathanluco.doctorapp.model.Consultation;
 import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.model.Medecin;
-import com.jonathanluco.doctorapp.model.Prescription;
 import com.jonathanluco.doctorapp.repository.ConsultationRepository;
+import com.jonathanluco.doctorapp.repository.MedecinRepository;
+import com.jonathanluco.doctorapp.repository.PatientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -31,12 +36,25 @@ class ConsultationServiceTest {
     @Mock
     private ConsultationRepository consultationRepository;
 
+    @Mock
+    private PatientRepository patientRepository;
+
+    @Mock
+    private MedecinRepository medecinRepository;
+
+    @Mock
+    private ConsultationMapper consultationMapper;
+
+    @Mock
+    private PrescriptionMapper prescriptionMapper;
+
     @InjectMocks
     private ConsultationService consultationService;
 
     private Consultation consultation;
     private Patient patient;
     private Medecin medecin;
+    private ConsultationDTO consultationDTO;
 
     @BeforeEach
     void setUp() {
@@ -46,26 +64,34 @@ class ConsultationServiceTest {
         consultation = new Consultation("CONS001", LocalDateTime.now());
         consultation.setPatientAssiste(patient);
         consultation.setMedecinDonne(medecin);
+        consultationDTO = new ConsultationDTO("CONS001", consultation.getDate());
+        consultationDTO.setPatientNumeroSS(patient.getNumeroSS());
+        consultationDTO.setMedecinMatricule(medecin.getMatricule());
     }
 
     @Test
     @DisplayName("Devrait créer une consultation avec succès")
     void testCreateConsultation() {
+        when(patientRepository.findByNumeroSS("123456789012")).thenReturn(patient);
+        when(medecinRepository.findByMatricule("DOC001")).thenReturn(medecin);
+        when(consultationMapper.toModel(consultationDTO, patient, medecin)).thenReturn(consultation);
         when(consultationRepository.save(any(Consultation.class))).thenReturn(consultation);
+        when(consultationMapper.toDto(consultation)).thenReturn(consultationDTO);
 
-        Consultation created = consultationService.createConsultation(consultation);
+        ConsultationDTO created = consultationService.createConsultation(consultationDTO);
 
         assertNotNull(created);
         assertEquals("CONS001", created.getNumeroConsultation());
-        verify(consultationRepository, times(1)).save(consultation);
+        verify(consultationRepository, times(1)).save(any(Consultation.class));
     }
 
     @Test
     @DisplayName("Devrait récupérer une consultation par ID")
     void testGetConsultationById() {
         when(consultationRepository.findById("CONS001")).thenReturn(Optional.of(consultation));
+        when(consultationMapper.toDto(consultation)).thenReturn(consultationDTO);
 
-        Optional<Consultation> found = consultationService.getConsultationById("CONS001");
+        Optional<ConsultationDTO> found = consultationService.getConsultationById("CONS001");
 
         assertTrue(found.isPresent());
         assertEquals("CONS001", found.get().getNumeroConsultation());
@@ -76,8 +102,9 @@ class ConsultationServiceTest {
     @DisplayName("Devrait récupérer toutes les consultations")
     void testGetAllConsultations() {
         when(consultationRepository.findAll()).thenReturn(Arrays.asList(consultation));
+        when(consultationMapper.toDto(consultation)).thenReturn(consultationDTO);
 
-        List<Consultation> consultations = consultationService.getAllConsultations();
+        List<ConsultationDTO> consultations = consultationService.getAllConsultations();
 
         assertNotNull(consultations);
         assertEquals(1, consultations.size());
@@ -89,8 +116,9 @@ class ConsultationServiceTest {
     void testGetConsultationsByPatient() {
         when(consultationRepository.findByPatientAssiste_NumeroSS("123456789012"))
                 .thenReturn(Arrays.asList(consultation));
+        when(consultationMapper.toDto(consultation)).thenReturn(consultationDTO);
 
-        List<Consultation> consultations = consultationService.getConsultationsByPatient("123456789012");
+        List<ConsultationDTO> consultations = consultationService.getConsultationsByPatient("123456789012");
 
         assertNotNull(consultations);
         assertEquals(1, consultations.size());
@@ -100,11 +128,17 @@ class ConsultationServiceTest {
     @Test
     @DisplayName("Devrait ajouter une prescription à une consultation")
     void testAddPrescriptionToConsultation() {
-        Prescription prescription = new Prescription("MED001", 3);
+        PrescriptionDTO prescription = new PrescriptionDTO("MED001", 3);
+        ConsultationDTO updatedDto = new ConsultationDTO("CONS001", consultation.getDate());
+        updatedDto.setPatientNumeroSS(patient.getNumeroSS());
+        updatedDto.setMedecinMatricule(medecin.getMatricule());
+        updatedDto.setPrescriptions(List.of(prescription));
         when(consultationRepository.findById("CONS001")).thenReturn(Optional.of(consultation));
+        when(prescriptionMapper.toModel(prescription)).thenReturn(new com.jonathanluco.doctorapp.model.Prescription("MED001", 3));
         when(consultationRepository.save(any(Consultation.class))).thenReturn(consultation);
+        when(consultationMapper.toDto(consultation)).thenReturn(updatedDto);
 
-        Consultation updated = consultationService.addPrescriptionToConsultation("CONS001", prescription);
+        ConsultationDTO updated = consultationService.addPrescriptionToConsultation("CONS001", prescription);
 
         assertNotNull(updated);
         assertEquals(1, updated.getPrescriptions().size());

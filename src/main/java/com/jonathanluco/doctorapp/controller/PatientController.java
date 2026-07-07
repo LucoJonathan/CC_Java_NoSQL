@@ -1,7 +1,6 @@
 package com.jonathanluco.doctorapp.controller;
 
 import com.jonathanluco.doctorapp.dto.PatientDTO;
-import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.service.PatientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -32,10 +31,8 @@ public class PatientController {
     @Operation(summary = "Créer un patient", description = "Crée un nouveau patient dans le système")
     @ApiResponse(responseCode = "201", description = "Patient créé avec succès")
     @ApiResponse(responseCode = "400", description = "Données invalides")
-    public ResponseEntity<Patient> createPatient(@Valid @RequestBody PatientDTO patientDTO) {
-        Patient patient = new Patient(patientDTO.getNumeroSS(), patientDTO.getNomPatient(),
-                patientDTO.getUsername(), patientDTO.getPassword());
-        return new ResponseEntity<>(patientService.createPatient(patient), HttpStatus.CREATED);
+    public ResponseEntity<PatientDTO> createPatient(@Valid @RequestBody PatientDTO patientDTO) {
+        return new ResponseEntity<>(patientService.createPatient(patientDTO), HttpStatus.CREATED);
     }
 
     /**
@@ -48,8 +45,8 @@ public class PatientController {
     @Operation(summary = "Récupérer un patient", description = "Récupère les détails d'un patient par son numéro SS")
     @ApiResponse(responseCode = "200", description = "Patient trouvé")
     @ApiResponse(responseCode = "404", description = "Patient non trouvé")
-    public ResponseEntity<Patient> getPatientByNumeroSS(@PathVariable String numeroSS) {
-        Optional<Patient> patient = patientService.getPatientByNumeroSS(numeroSS);
+    public ResponseEntity<PatientDTO> getPatientByNumeroSS(@PathVariable String numeroSS) {
+        Optional<PatientDTO> patient = patientService.getPatientByNumeroSS(numeroSS);
         return patient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -61,7 +58,7 @@ public class PatientController {
     @GetMapping
     @Operation(summary = "Récupérer tous les patients")
     @ApiResponse(responseCode = "200", description = "Liste des patients")
-    public ResponseEntity<List<Patient>> getAllPatients() {
+    public ResponseEntity<List<PatientDTO>> getAllPatients() {
         return ResponseEntity.ok(patientService.getAllPatients());
     }
 
@@ -76,11 +73,9 @@ public class PatientController {
     @Operation(summary = "Mettre à jour un patient")
     @ApiResponse(responseCode = "200", description = "Patient mis à jour")
     @ApiResponse(responseCode = "404", description = "Patient non trouvé")
-    public ResponseEntity<Patient> updatePatient(@PathVariable String numeroSS,
-                                                 @Valid @RequestBody PatientDTO patientDTO) {
-        Patient patientDetails = new Patient(patientDTO.getNumeroSS(), patientDTO.getNomPatient(),
-                patientDTO.getUsername(), patientDTO.getPassword());
-        Patient updatedPatient = patientService.updatePatient(numeroSS, patientDetails);
+    public ResponseEntity<PatientDTO> updatePatient(@PathVariable String numeroSS,
+                                                    @Valid @RequestBody PatientDTO patientDTO) {
+        PatientDTO updatedPatient = patientService.updatePatient(numeroSS, patientDTO);
         return updatedPatient != null ? ResponseEntity.ok(updatedPatient) : ResponseEntity.notFound().build();
     }
 

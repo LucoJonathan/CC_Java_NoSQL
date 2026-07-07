@@ -34,8 +34,6 @@ Dans les controlleur il ne faut pas que des dto de base ?
 
 Amélioré le mot de passe
 
-Ajouter des mappers pour que  Controleur (DTO) --> Service (DTO) Mapping (Model) --> Repository (Model) -- Mapping(model) Service (DTO) --> Controleur(DTO)
-
 Vérifier si le mdp est bien hasher
 
 Vérifier que la javadoc est partout

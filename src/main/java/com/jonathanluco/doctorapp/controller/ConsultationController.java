@@ -1,11 +1,13 @@
 package com.jonathanluco.doctorapp.controller;
 
-import com.jonathanluco.doctorapp.model.Consultation;
-import com.jonathanluco.doctorapp.model.Prescription;
+import com.jonathanluco.doctorapp.dto.ConsultationDTO;
+import com.jonathanluco.doctorapp.dto.PrescriptionDTO;
 import com.jonathanluco.doctorapp.service.ConsultationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,34 +19,35 @@ public class ConsultationController {
     private ConsultationService consultationService;
 
     @PostMapping
-    public ResponseEntity<Consultation> createConsultation(@RequestBody Consultation consultation) {
-        return ResponseEntity.ok(consultationService.createConsultation(consultation));
+    public ResponseEntity<ConsultationDTO> createConsultation(@Valid @RequestBody ConsultationDTO consultationDTO) {
+        return ResponseEntity.ok(consultationService.createConsultation(consultationDTO));
     }
 
     @GetMapping("/{numeroConsultation}")
-    public ResponseEntity<Consultation> getConsultationById(@PathVariable String numeroConsultation) {
-        Optional<Consultation> consultation = consultationService.getConsultationById(numeroConsultation);
+    public ResponseEntity<ConsultationDTO> getConsultationById(@PathVariable String numeroConsultation) {
+        Optional<ConsultationDTO> consultation = consultationService.getConsultationById(numeroConsultation);
         return consultation.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Consultation>> getAllConsultations() {
+    public ResponseEntity<List<ConsultationDTO>> getAllConsultations() {
         return ResponseEntity.ok(consultationService.getAllConsultations());
     }
 
     @GetMapping("/patient/{numeroSS}")
-    public ResponseEntity<List<Consultation>> getConsultationsByPatient(@PathVariable String numeroSS) {
+    public ResponseEntity<List<ConsultationDTO>> getConsultationsByPatient(@PathVariable String numeroSS) {
         return ResponseEntity.ok(consultationService.getConsultationsByPatient(numeroSS));
     }
 
     @GetMapping("/medecin/{matricule}")
-    public ResponseEntity<List<Consultation>> getConsultationsByMedecin(@PathVariable String matricule) {
+    public ResponseEntity<List<ConsultationDTO>> getConsultationsByMedecin(@PathVariable String matricule) {
         return ResponseEntity.ok(consultationService.getConsultationsByMedecin(matricule));
     }
 
     @PutMapping("/{numeroConsultation}")
-    public ResponseEntity<Consultation> updateConsultation(@PathVariable String numeroConsultation, @RequestBody Consultation consultationDetails) {
-        Consultation updatedConsultation = consultationService.updateConsultation(numeroConsultation, consultationDetails);
+    public ResponseEntity<ConsultationDTO> updateConsultation(@PathVariable String numeroConsultation,
+                                                              @Valid @RequestBody ConsultationDTO consultationDetails) {
+        ConsultationDTO updatedConsultation = consultationService.updateConsultation(numeroConsultation, consultationDetails);
         return updatedConsultation != null ? ResponseEntity.ok(updatedConsultation) : ResponseEntity.notFound().build();
     }
 
@@ -54,8 +57,9 @@ public class ConsultationController {
     }
 
     @PostMapping("/{numeroConsultation}/prescriptions")
-    public ResponseEntity<Consultation> addPrescription(@PathVariable String numeroConsultation, @RequestBody Prescription prescription) {
-        Consultation updatedConsultation = consultationService.addPrescriptionToConsultation(numeroConsultation, prescription);
+    public ResponseEntity<ConsultationDTO> addPrescription(@PathVariable String numeroConsultation,
+                                                           @Valid @RequestBody PrescriptionDTO prescriptionDTO) {
+        ConsultationDTO updatedConsultation = consultationService.addPrescriptionToConsultation(numeroConsultation, prescriptionDTO);
         return updatedConsultation != null ? ResponseEntity.ok(updatedConsultation) : ResponseEntity.notFound().build();
     }
 }

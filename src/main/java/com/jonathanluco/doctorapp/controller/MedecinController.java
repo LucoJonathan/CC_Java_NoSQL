@@ -1,10 +1,12 @@
 package com.jonathanluco.doctorapp.controller;
 
-import com.jonathanluco.doctorapp.model.Medecin;
+import com.jonathanluco.doctorapp.dto.MedecinDTO;
 import com.jonathanluco.doctorapp.service.MedecinService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,24 +18,24 @@ public class MedecinController {
     private MedecinService medecinService;
 
     @PostMapping
-    public ResponseEntity<Medecin> createMedecin(@RequestBody Medecin medecin) {
-        return ResponseEntity.ok(medecinService.createMedecin(medecin));
+    public ResponseEntity<MedecinDTO> createMedecin(@Valid @RequestBody MedecinDTO medecinDTO) {
+        return ResponseEntity.ok(medecinService.createMedecin(medecinDTO));
     }
 
     @GetMapping("/{matricule}")
-    public ResponseEntity<Medecin> getMedecinByMatricule(@PathVariable String matricule) {
-        Optional<Medecin> medecin = medecinService.getMedecinByMatricule(matricule);
+    public ResponseEntity<MedecinDTO> getMedecinByMatricule(@PathVariable String matricule) {
+        Optional<MedecinDTO> medecin = medecinService.getMedecinByMatricule(matricule);
         return medecin.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Medecin>> getAllMedecins() {
+    public ResponseEntity<List<MedecinDTO>> getAllMedecins() {
         return ResponseEntity.ok(medecinService.getAllMedecins());
     }
 
     @PutMapping("/{matricule}")
-    public ResponseEntity<Medecin> updateMedecin(@PathVariable String matricule, @RequestBody Medecin medecinDetails) {
-        Medecin updatedMedecin = medecinService.updateMedecin(matricule, medecinDetails);
+    public ResponseEntity<MedecinDTO> updateMedecin(@PathVariable String matricule, @Valid @RequestBody MedecinDTO medecinDetails) {
+        MedecinDTO updatedMedecin = medecinService.updateMedecin(matricule, medecinDetails);
         return updatedMedecin != null ? ResponseEntity.ok(updatedMedecin) : ResponseEntity.notFound().build();
     }
 

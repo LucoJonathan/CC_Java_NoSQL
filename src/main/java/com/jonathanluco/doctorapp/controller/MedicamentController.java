@@ -1,10 +1,12 @@
 package com.jonathanluco.doctorapp.controller;
 
-import com.jonathanluco.doctorapp.model.Medicament;
+import com.jonathanluco.doctorapp.dto.MedicamentDTO;
 import com.jonathanluco.doctorapp.service.MedicamentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,24 +18,24 @@ public class MedicamentController {
     private MedicamentService medicamentService;
 
     @PostMapping
-    public ResponseEntity<Medicament> createMedicament(@RequestBody Medicament medicament) {
-        return ResponseEntity.ok(medicamentService.createMedicament(medicament));
+    public ResponseEntity<MedicamentDTO> createMedicament(@Valid @RequestBody MedicamentDTO medicamentDTO) {
+        return ResponseEntity.ok(medicamentService.createMedicament(medicamentDTO));
     }
 
     @GetMapping("/{code}")
-    public ResponseEntity<Medicament> getMedicamentByCode(@PathVariable String code) {
-        Optional<Medicament> medicament = medicamentService.getMedicamentByCode(code);
+    public ResponseEntity<MedicamentDTO> getMedicamentByCode(@PathVariable String code) {
+        Optional<MedicamentDTO> medicament = medicamentService.getMedicamentByCode(code);
         return medicament.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Medicament>> getAllMedicaments() {
+    public ResponseEntity<List<MedicamentDTO>> getAllMedicaments() {
         return ResponseEntity.ok(medicamentService.getAllMedicaments());
     }
 
     @PutMapping("/{code}")
-    public ResponseEntity<Medicament> updateMedicament(@PathVariable String code, @RequestBody Medicament medicamentDetails) {
-        Medicament updatedMedicament = medicamentService.updateMedicament(code, medicamentDetails);
+    public ResponseEntity<MedicamentDTO> updateMedicament(@PathVariable String code, @Valid @RequestBody MedicamentDTO medicamentDetails) {
+        MedicamentDTO updatedMedicament = medicamentService.updateMedicament(code, medicamentDetails);
         return updatedMedicament != null ? ResponseEntity.ok(updatedMedicament) : ResponseEntity.notFound().build();
     }
 

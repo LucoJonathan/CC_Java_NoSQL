@@ -1,9 +1,12 @@
 package com.jonathanluco.doctorapp.service;
 
+import com.jonathanluco.doctorapp.dto.MedecinDTO;
+import com.jonathanluco.doctorapp.mapper.MedecinMapper;
 import com.jonathanluco.doctorapp.model.Medecin;
 import com.jonathanluco.doctorapp.repository.MedecinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,29 +16,35 @@ public class MedecinService {
     @Autowired
     private MedecinRepository medecinRepository;
 
-    public Medecin createMedecin(Medecin medecin) {
-        return medecinRepository.save(medecin);
+    @Autowired
+    private MedecinMapper medecinMapper;
+
+    public MedecinDTO createMedecin(MedecinDTO medecinDTO) {
+        Medecin medecin = medecinMapper.toModel(medecinDTO);
+        return medecinMapper.toDto(medecinRepository.save(medecin));
     }
 
-    public Optional<Medecin> getMedecinByMatricule(String matricule) {
-        return Optional.ofNullable(medecinRepository.findByMatricule(matricule));
+    public Optional<MedecinDTO> getMedecinByMatricule(String matricule) {
+        return Optional.ofNullable(medecinRepository.findByMatricule(matricule))
+                .map(medecinMapper::toDto);
     }
 
-    public Optional<Medecin> getMedecinById(String id) {
-        return medecinRepository.findById(id);
+    public Optional<MedecinDTO> getMedecinById(String id) {
+        return medecinRepository.findById(id)
+                .map(medecinMapper::toDto);
     }
 
-    public List<Medecin> getAllMedecins() {
-        return medecinRepository.findAll();
+    public List<MedecinDTO> getAllMedecins() {
+        return medecinRepository.findAll().stream()
+                .map(medecinMapper::toDto)
+                .toList();
     }
 
-    public Medecin updateMedecin(String matricule, Medecin medecinDetails) {
+    public MedecinDTO updateMedecin(String matricule, MedecinDTO medecinDetails) {
         Medecin medecin = medecinRepository.findByMatricule(matricule);
         if (medecin != null) {
-            medecin.setNomMedecin(medecinDetails.getNomMedecin());
-            medecin.setUsername(medecinDetails.getUsername());
-            medecin.setPassword(medecinDetails.getPassword());
-            return medecinRepository.save(medecin);
+            medecinMapper.updateModel(medecin, medecinDetails);
+            return medecinMapper.toDto(medecinRepository.save(medecin));
         }
         return null;
     }

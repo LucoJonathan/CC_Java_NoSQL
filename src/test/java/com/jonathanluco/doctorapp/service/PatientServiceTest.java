@@ -1,5 +1,7 @@
 package com.jonathanluco.doctorapp.service;
 
+import com.jonathanluco.doctorapp.dto.PatientDTO;
+import com.jonathanluco.doctorapp.mapper.PatientMapper;
 import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.repository.PatientRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,36 +29,44 @@ class PatientServiceTest {
     @Mock
     private PatientRepository patientRepository;
 
+    @Mock
+    private PatientMapper patientMapper;
+
     @InjectMocks
     private PatientService patientService;
 
     private Patient patient;
+    private PatientDTO patientDTO;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         patient = new Patient("123456789012", "Jean Dupont", "jean_dupont", "password123");
+        patientDTO = new PatientDTO("123456789012", "Jean Dupont", "jean_dupont", "password123");
     }
 
     @Test
     @DisplayName("Devrait créer un patient avec succès")
     void testCreatePatient() {
+        when(patientMapper.toModel(any(PatientDTO.class))).thenReturn(patient);
         when(patientRepository.save(any(Patient.class))).thenReturn(patient);
+        when(patientMapper.toDto(any(Patient.class))).thenReturn(patientDTO);
 
-        Patient created = patientService.createPatient(patient);
+        PatientDTO created = patientService.createPatient(patientDTO);
 
         assertNotNull(created);
         assertEquals("123456789012", created.getNumeroSS());
         assertEquals("Jean Dupont", created.getNomPatient());
-        verify(patientRepository, times(1)).save(patient);
+        verify(patientRepository, times(1)).save(any(Patient.class));
     }
 
     @Test
     @DisplayName("Devrait récupérer un patient par numeroSS")
     void testGetPatientByNumeroSS() {
         when(patientRepository.findByNumeroSS("123456789012")).thenReturn(patient);
+        when(patientMapper.toDto(patient)).thenReturn(patientDTO);
 
-        Optional<Patient> found = patientService.getPatientByNumeroSS("123456789012");
+        Optional<PatientDTO> found = patientService.getPatientByNumeroSS("123456789012");
 
         assertTrue(found.isPresent());
         assertEquals("Jean Dupont", found.get().getNomPatient());
@@ -68,7 +78,7 @@ class PatientServiceTest {
     void testGetPatientByNumeroSSNotFound() {
         when(patientRepository.findByNumeroSS(anyString())).thenReturn(null);
 
-        Optional<Patient> found = patientService.getPatientByNumeroSS("999999999999");
+        Optional<PatientDTO> found = patientService.getPatientByNumeroSS("999999999999");
 
         assertTrue(found.isEmpty());
     }
@@ -77,9 +87,12 @@ class PatientServiceTest {
     @DisplayName("Devrait récupérer tous les patients")
     void testGetAllPatients() {
         Patient patient2 = new Patient("987654321098", "Marie Martin", "marie_martin", "password456");
+        PatientDTO patientDTO2 = new PatientDTO("987654321098", "Marie Martin", "marie_martin", "password456");
         when(patientRepository.findAll()).thenReturn(Arrays.asList(patient, patient2));
+        when(patientMapper.toDto(patient)).thenReturn(patientDTO);
+        when(patientMapper.toDto(patient2)).thenReturn(patientDTO2);
 
-        List<Patient> patients = patientService.getAllPatients();
+        List<PatientDTO> patients = patientService.getAllPatients();
 
         assertNotNull(patients);
         assertEquals(2, patients.size());
@@ -89,11 +102,14 @@ class PatientServiceTest {
     @Test
     @DisplayName("Devrait mettre à jour un patient")
     void testUpdatePatient() {
-        Patient updatedData = new Patient("123456789012", "Jean Dupont Modifié", "jean_dupont", "newpassword");
+        PatientDTO updatedData = new PatientDTO("123456789012", "Jean Dupont Modifié", "jean_dupont", "newpassword");
+        Patient updatedPatient = new Patient("123456789012", "Jean Dupont Modifié", "jean_dupont", "newpassword");
         when(patientRepository.findByNumeroSS("123456789012")).thenReturn(patient);
-        when(patientRepository.save(any(Patient.class))).thenReturn(updatedData);
+        when(patientRepository.save(any(Patient.class))).thenReturn(updatedPatient);
+        doNothing().when(patientMapper).updateModel(patient, updatedData);
+        when(patientMapper.toDto(updatedPatient)).thenReturn(updatedData);
 
-        Patient updated = patientService.updatePatient("123456789012", updatedData);
+        PatientDTO updated = patientService.updatePatient("123456789012", updatedData);
 
         assertNotNull(updated);
         assertEquals("Jean Dupont Modifié", updated.getNomPatient());

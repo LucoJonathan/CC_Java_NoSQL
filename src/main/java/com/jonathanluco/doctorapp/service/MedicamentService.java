@@ -1,9 +1,12 @@
 package com.jonathanluco.doctorapp.service;
 
+import com.jonathanluco.doctorapp.dto.MedicamentDTO;
+import com.jonathanluco.doctorapp.mapper.MedicamentMapper;
 import com.jonathanluco.doctorapp.model.Medicament;
 import com.jonathanluco.doctorapp.repository.MedicamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,27 +16,35 @@ public class MedicamentService {
     @Autowired
     private MedicamentRepository medicamentRepository;
 
-    public Medicament createMedicament(Medicament medicament) {
-        return medicamentRepository.save(medicament);
+    @Autowired
+    private MedicamentMapper medicamentMapper;
+
+    public MedicamentDTO createMedicament(MedicamentDTO medicamentDTO) {
+        Medicament medicament = medicamentMapper.toModel(medicamentDTO);
+        return medicamentMapper.toDto(medicamentRepository.save(medicament));
     }
 
-    public Optional<Medicament> getMedicamentByCode(String code) {
-        return Optional.ofNullable(medicamentRepository.findByCode(code));
+    public Optional<MedicamentDTO> getMedicamentByCode(String code) {
+        return Optional.ofNullable(medicamentRepository.findByCode(code))
+                .map(medicamentMapper::toDto);
     }
 
-    public Optional<Medicament> getMedicamentById(String id) {
-        return medicamentRepository.findById(id);
+    public Optional<MedicamentDTO> getMedicamentById(String id) {
+        return medicamentRepository.findById(id)
+                .map(medicamentMapper::toDto);
     }
 
-    public List<Medicament> getAllMedicaments() {
-        return medicamentRepository.findAll();
+    public List<MedicamentDTO> getAllMedicaments() {
+        return medicamentRepository.findAll().stream()
+                .map(medicamentMapper::toDto)
+                .toList();
     }
 
-    public Medicament updateMedicament(String code, Medicament medicamentDetails) {
+    public MedicamentDTO updateMedicament(String code, MedicamentDTO medicamentDetails) {
         Medicament medicament = medicamentRepository.findByCode(code);
         if (medicament != null) {
-            medicament.setLibelle(medicamentDetails.getLibelle());
-            return medicamentRepository.save(medicament);
+            medicamentMapper.updateModel(medicament, medicamentDetails);
+            return medicamentMapper.toDto(medicamentRepository.save(medicament));
         }
         return null;
     }
