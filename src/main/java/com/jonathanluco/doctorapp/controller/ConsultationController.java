@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controleur REST pour la gestion des consultations.
+ */
 @RestController
 @RequestMapping("/api/consultations")
 public class ConsultationController {

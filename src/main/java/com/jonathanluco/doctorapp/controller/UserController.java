@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controleur REST pour la gestion des utilisateurs generiques.
+ */
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

@@ -6,6 +6,9 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
+/**
+ * Mapper MapStruct entre Prescription et PrescriptionDTO.
+ */
 @Mapper(componentModel = "spring")
 public interface PrescriptionMapper {
 

@@ -10,6 +10,9 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
+/**
+ * Mapper MapStruct entre Consultation et ConsultationDTO.
+ */
 @Mapper(componentModel = "spring", uses = PrescriptionMapper.class)
 public interface ConsultationMapper {
 

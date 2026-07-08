@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service metier pour la gestion des medicaments.
+ */
 @Service
 public class MedicamentService {
 

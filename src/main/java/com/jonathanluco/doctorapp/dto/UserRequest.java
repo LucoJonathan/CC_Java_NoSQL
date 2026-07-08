@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Requete de creation/mise a jour d'utilisateur.
+ */
 public record UserRequest(
         @NotBlank
         @Email(message = "Le format de l'email est invalide")

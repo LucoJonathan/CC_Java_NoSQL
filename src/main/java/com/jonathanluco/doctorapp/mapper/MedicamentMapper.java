@@ -6,6 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+/**
+ * Mapper MapStruct entre Medicament et MedicamentDTO.
+ */
 @Mapper(componentModel = "spring")
 public interface MedicamentMapper {
 

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controleur REST pour la gestion des medecins.
+ */
 @RestController
 @Validated
 @RequestMapping("/api/medecins")

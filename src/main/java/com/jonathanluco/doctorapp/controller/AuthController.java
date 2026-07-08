@@ -9,6 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controleur d'authentification (login JWT).
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

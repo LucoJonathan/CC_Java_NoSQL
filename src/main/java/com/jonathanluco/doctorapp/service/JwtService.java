@@ -11,6 +11,9 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+/**
+ * Service utilitaire pour generer et valider les tokens JWT.
+ */
 @Service
 public class JwtService {
 

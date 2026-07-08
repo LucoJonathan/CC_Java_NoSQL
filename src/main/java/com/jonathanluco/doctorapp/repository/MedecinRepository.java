@@ -6,6 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository MongoDB pour les medecins.
+ */
 @Repository
 public interface MedecinRepository extends MongoRepository<Medecin, String> {
     Medecin findByMatricule(String matricule);

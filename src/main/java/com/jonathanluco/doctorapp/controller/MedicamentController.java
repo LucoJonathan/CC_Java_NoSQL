@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controleur REST pour la gestion des medicaments.
+ */
 @RestController
 @RequestMapping("/api/medicaments")
 public class MedicamentController {

@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation UserDetailsService basee sur les collections MongoDB.
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
