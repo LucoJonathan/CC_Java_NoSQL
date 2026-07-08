@@ -35,6 +35,7 @@ public class MedecinService {
     private PasswordEncoder passwordEncoder;
 
     public MedecinDTO createMedecin(MedecinDTO medecinDTO) {
+        ensureMatriculeIsAvailable(medecinDTO.getMatricule(), null);
         ensureEmailIsAvailable(medecinDTO.getEmail(), null);
         Medecin medecin = medecinMapper.toModel(medecinDTO);
         medecin.setPassword(passwordEncoder.encode(medecinDTO.getPassword()));
@@ -84,12 +85,23 @@ public class MedecinService {
 
     private void ensureEmailIsAvailable(String email, String currentId) {
         Medecin existingMedecin = medecinRepository.findByEmail(email);
-        if (existingMedecin != null && !Objects.equals(existingMedecin.getId(), currentId)) {
+        if (existingMedecin != null && isDifferentEntity(existingMedecin.getId(), currentId)) {
             throw new DuplicateResourceException("Cet email existe déjà");
         }
         Patient existingPatient = patientRepository.findByEmail(email);
-        if (existingPatient != null && !Objects.equals(existingPatient.getId(), currentId)) {
+        if (existingPatient != null && isDifferentEntity(existingPatient.getId(), currentId)) {
             throw new DuplicateResourceException("Cet email existe déjà");
         }
+    }
+
+    private void ensureMatriculeIsAvailable(String matricule, String currentId) {
+        Medecin existingMedecin = medecinRepository.findByMatricule(matricule);
+        if (existingMedecin != null && isDifferentEntity(existingMedecin.getId(), currentId)) {
+            throw new DuplicateResourceException("Ce matricule existe déjà");
+        }
+    }
+
+    private boolean isDifferentEntity(String existingId, String currentId) {
+        return currentId == null || !Objects.equals(existingId, currentId);
     }
 }

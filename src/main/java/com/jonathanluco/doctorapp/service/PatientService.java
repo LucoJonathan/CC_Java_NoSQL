@@ -35,6 +35,7 @@ public class PatientService {
     private PasswordEncoder passwordEncoder;
 
     public PatientDTO createPatient(PatientDTO patientDTO) {
+        ensureNumeroSSIsAvailable(patientDTO.getNumeroSS(), null);
         ensureEmailIsAvailable(patientDTO.getEmail(), null);
         Patient patient = patientMapper.toModel(patientDTO);
         patient.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
@@ -84,12 +85,23 @@ public class PatientService {
 
     private void ensureEmailIsAvailable(String email, String currentId) {
         Patient existingPatient = patientRepository.findByEmail(email);
-        if (existingPatient != null && !Objects.equals(existingPatient.getId(), currentId)) {
+        if (existingPatient != null && isDifferentEntity(existingPatient.getId(), currentId)) {
             throw new DuplicateResourceException("Cet email existe déjà");
         }
         Medecin existingMedecin = medecinRepository.findByEmail(email);
-        if (existingMedecin != null && !Objects.equals(existingMedecin.getId(), currentId)) {
+        if (existingMedecin != null && isDifferentEntity(existingMedecin.getId(), currentId)) {
             throw new DuplicateResourceException("Cet email existe déjà");
         }
+    }
+
+    private void ensureNumeroSSIsAvailable(String numeroSS, String currentId) {
+        Patient existingPatient = patientRepository.findByNumeroSS(numeroSS);
+        if (existingPatient != null && isDifferentEntity(existingPatient.getId(), currentId)) {
+            throw new DuplicateResourceException("Ce numéro de sécurité sociale existe déjà");
+        }
+    }
+
+    private boolean isDifferentEntity(String existingId, String currentId) {
+        return currentId == null || !Objects.equals(existingId, currentId);
     }
 }

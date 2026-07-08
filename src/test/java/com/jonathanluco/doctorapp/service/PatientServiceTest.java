@@ -1,6 +1,7 @@
 package com.jonathanluco.doctorapp.service;
 
 import com.jonathanluco.doctorapp.dto.PatientDTO;
+import com.jonathanluco.doctorapp.exception.DuplicateResourceException;
 import com.jonathanluco.doctorapp.mapper.PatientMapper;
 import com.jonathanluco.doctorapp.repository.MedecinRepository;
 import com.jonathanluco.doctorapp.model.Patient;
@@ -54,12 +55,14 @@ class PatientServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         patient = new Patient("123456789012", "Jean Dupont", "jean.dupont@example.com", "jean_dupont", "password123");
+        patient.setId("patient-1");
         patientDTO = new PatientDTO("123456789012", "Jean Dupont", "jean_dupont", "jean.dupont@example.com", "password123");
     }
 
     @Test
     @DisplayName("Devrait créer un patient avec succès")
     void testCreatePatient() {
+        when(patientRepository.findByNumeroSS("123456789012")).thenReturn(null);
         when(patientRepository.findByEmail("jean.dupont@example.com")).thenReturn(null);
         when(medecinRepository.findByEmail("jean.dupont@example.com")).thenReturn(null);
         when(patientMapper.toModel(any(PatientDTO.class))).thenReturn(patient);
@@ -73,6 +76,15 @@ class PatientServiceTest {
         assertEquals("123456789012", created.getNumeroSS());
         assertEquals("Jean Dupont", created.getNomPatient());
         verify(patientRepository, times(1)).save(any(Patient.class));
+    }
+
+    @Test
+    @DisplayName("Devrait refuser un numeroSS dupliqué")
+    void testCreatePatientDuplicateNumeroSS() {
+        when(patientRepository.findByNumeroSS("123456789012")).thenReturn(patient);
+
+        assertThrows(DuplicateResourceException.class, () -> patientService.createPatient(patientDTO));
+        verify(patientRepository, never()).save(any(Patient.class));
     }
 
     @Test
