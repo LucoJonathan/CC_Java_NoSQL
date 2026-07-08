@@ -86,16 +86,16 @@ class ConsultationServiceTest {
     }
 
     @Test
-    @DisplayName("Devrait récupérer une consultation par ID")
-    void testGetConsultationById() {
-        when(consultationRepository.findById("CONS001")).thenReturn(Optional.of(consultation));
+    @DisplayName("Devrait récupérer une consultation par numero de consultation")
+    void testGetConsultationByNumeroConsultation() {
+        when(consultationRepository.findByNumeroConsultation("CONS001")).thenReturn(Optional.of(consultation));
         when(consultationMapper.toDto(consultation)).thenReturn(consultationDTO);
 
-        Optional<ConsultationDTO> found = consultationService.getConsultationById("CONS001");
+        Optional<ConsultationDTO> found = consultationService.getConsultationByNumeroConsultation("CONS001");
 
         assertTrue(found.isPresent());
         assertEquals("CONS001", found.get().getNumeroConsultation());
-        verify(consultationRepository, times(1)).findById("CONS001");
+        verify(consultationRepository, times(1)).findByNumeroConsultation("CONS001");
     }
 
     @Test
@@ -133,7 +133,7 @@ class ConsultationServiceTest {
         updatedDto.setPatientNumeroSS(patient.getNumeroSS());
         updatedDto.setMedecinMatricule(medecin.getMatricule());
         updatedDto.setPrescriptions(List.of(prescription));
-        when(consultationRepository.findById("CONS001")).thenReturn(Optional.of(consultation));
+        when(consultationRepository.findByNumeroConsultation("CONS001")).thenReturn(Optional.of(consultation));
         when(prescriptionMapper.toModel(prescription)).thenReturn(new com.jonathanluco.doctorapp.model.Prescription("MED001", 3));
         when(consultationRepository.save(any(Consultation.class))).thenReturn(consultation);
         when(consultationMapper.toDto(consultation)).thenReturn(updatedDto);
@@ -142,18 +142,18 @@ class ConsultationServiceTest {
 
         assertNotNull(updated);
         assertEquals(1, updated.getPrescriptions().size());
-        verify(consultationRepository, times(1)).findById("CONS001");
+        verify(consultationRepository, times(1)).findByNumeroConsultation("CONS001");
     }
 
     @Test
     @DisplayName("Devrait supprimer une consultation")
     void testDeleteConsultation() {
-        when(consultationRepository.existsById("CONS001")).thenReturn(true);
-        doNothing().when(consultationRepository).deleteById("CONS001");
+        when(consultationRepository.existsByNumeroConsultation("CONS001")).thenReturn(true);
+        doNothing().when(consultationRepository).deleteByNumeroConsultation("CONS001");
 
         boolean deleted = consultationService.deleteConsultation("CONS001");
 
         assertTrue(deleted);
-        verify(consultationRepository, times(1)).deleteById("CONS001");
+        verify(consultationRepository, times(1)).deleteByNumeroConsultation("CONS001");
     }
 }

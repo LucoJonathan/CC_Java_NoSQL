@@ -27,8 +27,8 @@ public class ConsultationController {
     }
 
     @GetMapping("/{numeroConsultation}")
-    public ResponseEntity<ConsultationDTO> getConsultationById(@PathVariable String numeroConsultation) {
-        Optional<ConsultationDTO> consultation = consultationService.getConsultationById(numeroConsultation);
+    public ResponseEntity<ConsultationDTO> getConsultationByNumeroConsultation(@PathVariable String numeroConsultation) {
+        Optional<ConsultationDTO> consultation = consultationService.getConsultationByNumeroConsultation(numeroConsultation);
         return consultation.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

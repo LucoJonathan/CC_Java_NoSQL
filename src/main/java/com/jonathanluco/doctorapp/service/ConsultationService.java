@@ -45,8 +45,8 @@ public class ConsultationService {
         return consultationMapper.toDto(consultationRepository.save(consultation));
     }
 
-    public Optional<ConsultationDTO> getConsultationById(String numeroConsultation) {
-        return consultationRepository.findById(numeroConsultation)
+    public Optional<ConsultationDTO> getConsultationByNumeroConsultation(String numeroConsultation) {
+        return consultationRepository.findByNumeroConsultation(numeroConsultation)
                 .map(consultationMapper::toDto);
     }
 
@@ -69,7 +69,7 @@ public class ConsultationService {
     }
 
     public ConsultationDTO updateConsultation(String numeroConsultation, ConsultationDTO consultationDetails) {
-        Optional<Consultation> existingConsultation = consultationRepository.findById(numeroConsultation);
+        Optional<Consultation> existingConsultation = consultationRepository.findByNumeroConsultation(numeroConsultation);
         if (existingConsultation.isPresent()) {
             Patient patient = findPatientByNumeroSS(consultationDetails.getPatientNumeroSS());
             Medecin medecin = findMedecinByMatricule(consultationDetails.getMedecinMatricule());
@@ -81,15 +81,15 @@ public class ConsultationService {
     }
 
     public boolean deleteConsultation(String numeroConsultation) {
-        if (consultationRepository.existsById(numeroConsultation)) {
-            consultationRepository.deleteById(numeroConsultation);
+        if (consultationRepository.existsByNumeroConsultation(numeroConsultation)) {
+            consultationRepository.deleteByNumeroConsultation(numeroConsultation);
             return true;
         }
         return false;
     }
 
     public ConsultationDTO addPrescriptionToConsultation(String numeroConsultation, PrescriptionDTO prescriptionDTO) {
-        Optional<Consultation> consultation = consultationRepository.findById(numeroConsultation);
+        Optional<Consultation> consultation = consultationRepository.findByNumeroConsultation(numeroConsultation);
         if (consultation.isPresent()) {
             consultation.get().addPrescription(prescriptionMapper.toModel(prescriptionDTO));
             return consultationMapper.toDto(consultationRepository.save(consultation.get()));
