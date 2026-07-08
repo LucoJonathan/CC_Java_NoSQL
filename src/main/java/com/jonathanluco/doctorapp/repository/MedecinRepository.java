@@ -1,6 +1,8 @@
 package com.jonathanluco.doctorapp.repository;
 
 import com.jonathanluco.doctorapp.model.Medecin;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface MedecinRepository extends MongoRepository<Medecin, String> {
     Medecin findByMatricule(String matricule);
     Medecin findByEmail(String email);
+    Page<Medecin> findAllBy(Pageable pageable);
 }

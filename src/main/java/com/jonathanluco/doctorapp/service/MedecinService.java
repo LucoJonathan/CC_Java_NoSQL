@@ -8,6 +8,10 @@ import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.repository.MedecinRepository;
 import com.jonathanluco.doctorapp.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +55,11 @@ public class MedecinService {
         return medecinRepository.findAll().stream()
                 .map(medecinMapper::toDto)
                 .toList();
+    }
+
+    public Page<MedecinDTO> getMedecinsPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("nomMedecin").ascending());
+        return medecinMapper.toDtoPage(medecinRepository.findAllBy(pageable));
     }
 
     public MedecinDTO updateMedecin(String matricule, MedecinDTO medecinDetails) {

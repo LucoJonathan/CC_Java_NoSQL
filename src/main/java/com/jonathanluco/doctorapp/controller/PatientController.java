@@ -5,15 +5,20 @@ import com.jonathanluco.doctorapp.service.PatientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Validated
 @RequestMapping("/api/patients")
 @Tag(name = "Patients", description = "Endpoints pour la gestion des patients")
 public class PatientController {
@@ -60,6 +65,15 @@ public class PatientController {
     @ApiResponse(responseCode = "200", description = "Liste des patients")
     public ResponseEntity<List<PatientDTO>> getAllPatients() {
         return ResponseEntity.ok(patientService.getAllPatients());
+    }
+
+    @GetMapping("/page")
+    @Operation(summary = "Récupérer une page de patients")
+    @ApiResponse(responseCode = "200", description = "Page de patients")
+    public ResponseEntity<Page<PatientDTO>> getPatientsPage(
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size) {
+        return ResponseEntity.ok(patientService.getPatientsPage(page, size));
     }
 
     /**

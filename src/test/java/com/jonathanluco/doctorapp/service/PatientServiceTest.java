@@ -11,6 +11,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Arrays;
 import java.util.List;
@@ -108,6 +112,22 @@ class PatientServiceTest {
         assertNotNull(patients);
         assertEquals(2, patients.size());
         verify(patientRepository, times(1)).findAll();
+    }
+
+    @Test
+    @DisplayName("Devrait récupérer une page de patients")
+    void testGetPatientsPage() {
+        Page<Patient> patientPage = new PageImpl<>(List.of(patient), PageRequest.of(0, 1), 1);
+        Page<PatientDTO> patientDtoPage = new PageImpl<>(List.of(patientDTO), PageRequest.of(0, 1), 1);
+        when(patientRepository.findAllBy(any(Pageable.class))).thenReturn(patientPage);
+        when(patientMapper.toDtoPage(patientPage)).thenReturn(patientDtoPage);
+
+        Page<PatientDTO> result = patientService.getPatientsPage(0, 1);
+
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+        assertEquals("123456789012", result.getContent().get(0).getNumeroSS());
+        verify(patientRepository, times(1)).findAllBy(any(Pageable.class));
     }
 
     @Test

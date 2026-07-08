@@ -41,6 +41,8 @@ Base URL locale : `http://localhost:8080`
 | POST | `/api/auth/login` | Non | Login et recuperation JWT |
 | GET | `/api/users` | Oui (Bearer) | Lister les users |
 | GET | `/api/users/{id}` | Oui (Bearer) | Recuperer 1 user |
+| GET | `/api/patients/page?page=0&size=10` | Oui (Bearer) | Recuperer une page de patients |
+| GET | `/api/medecins/page?page=0&size=10` | Oui (Bearer) | Recuperer une page de medecins |
 | PUT | `/api/users/{id}` | Oui (Bearer) | Modifier 1 user |
 | DELETE | `/api/users/{id}` | Oui (Bearer) | Supprimer 1 user |
 
@@ -103,6 +105,16 @@ curl -X POST http://localhost:8080/api/auth/login \
 
 ```bash
 curl -X GET http://localhost:8080/api/users \
+  -H "Authorization: Bearer <token>"
+```
+
+```bash
+curl -X GET "http://localhost:8080/api/patients/page?page=0&size=10" \
+  -H "Authorization: Bearer <token>"
+```
+
+```bash
+curl -X GET "http://localhost:8080/api/medecins/page?page=0&size=10" \
   -H "Authorization: Bearer <token>"
 ```
 
