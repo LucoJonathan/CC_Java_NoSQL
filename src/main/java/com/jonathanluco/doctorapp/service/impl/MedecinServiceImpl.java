@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Implementation service medecin.
+ */
 @Service
 public class MedecinServiceImpl implements IMedecinService {
 
@@ -35,6 +38,9 @@ public class MedecinServiceImpl implements IMedecinService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Cree medecin avec contraintes d'unicite.
+     */
     @Override
     public MedecinDTO createMedecin(MedecinDTO medecinDTO) {
         ensureMatriculeIsAvailable(medecinDTO.getMatricule(), null);
@@ -44,18 +50,27 @@ public class MedecinServiceImpl implements IMedecinService {
         return medecinMapper.toDto(medecinRepository.save(medecin));
     }
 
+    /**
+     * Cherche medecin par matricule.
+     */
     @Override
     public Optional<MedecinDTO> getMedecinByMatricule(String matricule) {
         return Optional.ofNullable(medecinRepository.findByMatricule(matricule))
                 .map(medecinMapper::toDto);
     }
 
+    /**
+     * Cherche medecin par id.
+     */
     @Override
     public Optional<MedecinDTO> getMedecinById(String id) {
         return medecinRepository.findById(id)
                 .map(medecinMapper::toDto);
     }
 
+    /**
+     * Retourne tous medecins.
+     */
     @Override
     public List<MedecinDTO> getAllMedecins() {
         return medecinRepository.findAll().stream()
@@ -63,12 +78,18 @@ public class MedecinServiceImpl implements IMedecinService {
                 .toList();
     }
 
+    /**
+     * Retourne page de medecins.
+     */
     @Override
     public Page<MedecinDTO> getMedecinsPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("nomMedecin").ascending());
         return medecinMapper.toDtoPage(medecinRepository.findAllBy(pageable));
     }
 
+    /**
+     * Met a jour medecin existant.
+     */
     @Override
     public MedecinDTO updateMedecin(String matricule, MedecinDTO medecinDetails) {
         Medecin medecin = medecinRepository.findByMatricule(matricule);
@@ -81,6 +102,9 @@ public class MedecinServiceImpl implements IMedecinService {
         return null;
     }
 
+    /**
+     * Supprime medecin par matricule.
+     */
     @Override
     public boolean deleteMedecin(String matricule) {
         Medecin medecin = medecinRepository.findByMatricule(matricule);

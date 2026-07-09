@@ -12,6 +12,9 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+/**
+ * Implementation service JWT.
+ */
 @Service
 public class JwtServiceImpl implements IJwtService {
 
@@ -26,6 +29,9 @@ public class JwtServiceImpl implements IJwtService {
         this.expirationMs = expirationMs;
     }
 
+    /**
+     * Genere token signe.
+     */
     @Override
     public String generateToken(UserDetails userDetails) {
         Date now = new Date();
@@ -39,11 +45,17 @@ public class JwtServiceImpl implements IJwtService {
                 .compact();
     }
 
+    /**
+     * Extrait username depuis token.
+     */
     @Override
     public String extractUsername(String token) {
         return parseClaims(token).getSubject();
     }
 
+    /**
+     * Verifie token et user.
+     */
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = extractUsername(token);

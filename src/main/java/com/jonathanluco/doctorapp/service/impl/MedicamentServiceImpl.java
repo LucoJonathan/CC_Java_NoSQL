@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation service medicament.
+ */
 @Service
 public class MedicamentServiceImpl implements IMedicamentService {
 
@@ -20,24 +23,36 @@ public class MedicamentServiceImpl implements IMedicamentService {
     @Autowired
     private MedicamentMapper medicamentMapper;
 
+    /**
+     * Cree medicament.
+     */
     @Override
     public MedicamentDTO createMedicament(MedicamentDTO medicamentDTO) {
         Medicament medicament = medicamentMapper.toModel(medicamentDTO);
         return medicamentMapper.toDto(medicamentRepository.save(medicament));
     }
 
+    /**
+     * Cherche medicament par code.
+     */
     @Override
     public Optional<MedicamentDTO> getMedicamentByCode(String code) {
         return Optional.ofNullable(medicamentRepository.findByCode(code))
                 .map(medicamentMapper::toDto);
     }
 
+    /**
+     * Cherche medicament par id.
+     */
     @Override
     public Optional<MedicamentDTO> getMedicamentById(String id) {
         return medicamentRepository.findById(id)
                 .map(medicamentMapper::toDto);
     }
 
+    /**
+     * Retourne tous medicaments.
+     */
     @Override
     public List<MedicamentDTO> getAllMedicaments() {
         return medicamentRepository.findAll().stream()
@@ -45,6 +60,9 @@ public class MedicamentServiceImpl implements IMedicamentService {
                 .toList();
     }
 
+    /**
+     * Met a jour medicament.
+     */
     @Override
     public MedicamentDTO updateMedicament(String code, MedicamentDTO medicamentDetails) {
         Medicament medicament = medicamentRepository.findByCode(code);
@@ -55,6 +73,9 @@ public class MedicamentServiceImpl implements IMedicamentService {
         return null;
     }
 
+    /**
+     * Supprime medicament.
+     */
     @Override
     public boolean deleteMedicament(String code) {
         Medicament medicament = medicamentRepository.findByCode(code);

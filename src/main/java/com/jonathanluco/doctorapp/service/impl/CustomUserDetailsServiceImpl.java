@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation UserDetailsService custom.
+ */
 @Service
 public class CustomUserDetailsServiceImpl implements ICustomUserDetailsService {
 
@@ -28,6 +31,9 @@ public class CustomUserDetailsServiceImpl implements ICustomUserDetailsService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Charge utilisateur Spring Security.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findUserByEmail(username);

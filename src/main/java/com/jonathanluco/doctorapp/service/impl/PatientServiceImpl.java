@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Implementation service patient.
+ */
 @Service
 public class PatientServiceImpl implements IPatientService {
 
@@ -35,6 +38,9 @@ public class PatientServiceImpl implements IPatientService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Cree patient avec numero SS unique.
+     */
     @Override
     public PatientDTO createPatient(PatientDTO patientDTO) {
         ensureNumeroSSIsAvailable(patientDTO.getNumeroSS(), null);
@@ -44,18 +50,27 @@ public class PatientServiceImpl implements IPatientService {
         return patientMapper.toDto(patientRepository.save(patient));
     }
 
+    /**
+     * Cherche patient par numero SS.
+     */
     @Override
     public Optional<PatientDTO> getPatientByNumeroSS(String numeroSS) {
         return Optional.ofNullable(patientRepository.findByNumeroSS(numeroSS))
                 .map(patientMapper::toDto);
     }
 
+    /**
+     * Cherche patient par id.
+     */
     @Override
     public Optional<PatientDTO> getPatientById(String id) {
         return patientRepository.findById(id)
                 .map(patientMapper::toDto);
     }
 
+    /**
+     * Retourne tous patients.
+     */
     @Override
     public List<PatientDTO> getAllPatients() {
         return patientRepository.findAll().stream()
@@ -63,12 +78,18 @@ public class PatientServiceImpl implements IPatientService {
                 .toList();
     }
 
+    /**
+     * Retourne page de patients.
+     */
     @Override
     public Page<PatientDTO> getPatientsPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("nomPatient").ascending());
         return patientMapper.toDtoPage(patientRepository.findAllBy(pageable));
     }
 
+    /**
+     * Met a jour patient existant.
+     */
     @Override
     public PatientDTO updatePatient(String numeroSS, PatientDTO patientDetails) {
         Patient patient = patientRepository.findByNumeroSS(numeroSS);
@@ -81,6 +102,9 @@ public class PatientServiceImpl implements IPatientService {
         return null;
     }
 
+    /**
+     * Supprime patient par numero SS.
+     */
     @Override
     public boolean deletePatient(String numeroSS) {
         Patient patient = patientRepository.findByNumeroSS(numeroSS);

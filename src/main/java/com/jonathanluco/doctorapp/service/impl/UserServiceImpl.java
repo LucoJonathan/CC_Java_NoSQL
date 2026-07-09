@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation service utilisateur.
+ */
 @Service
 public class UserServiceImpl implements IUserService {
 
@@ -33,6 +36,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Cree utilisateur patient avec email unique.
+     */
     @Override
     public User create(UserRequest request) {
         if (findByEmail(request.email()) != null) {
@@ -48,6 +54,9 @@ public class UserServiceImpl implements IUserService {
         return userRepository.save(patient);
     }
 
+    /**
+     * Authentifie utilisateur via email et mot de passe.
+     */
     @Override
     public User authenticate(String email, String password) {
         User user = findByEmail(email);
@@ -57,6 +66,9 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
+    /**
+     * Retourne tous utilisateurs connus.
+     */
     @Override
     public List<User> findAll() {
         return userRepository.findAll().stream()
@@ -64,6 +76,9 @@ public class UserServiceImpl implements IUserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Cherche utilisateur par email.
+     */
     @Override
     public User findByEmail(String email) {
         Patient patient = userRepository.findByEmail(email);
@@ -79,12 +94,18 @@ public class UserServiceImpl implements IUserService {
         return legacyUserRepository.findByEmail(email).orElse(null);
     }
 
+    /**
+     * Cherche utilisateur par id.
+     */
     @Override
     public User findById(String id) {
         Optional<Patient> patient = userRepository.findById(id);
         return patient.orElse(null);
     }
 
+    /**
+     * Met a jour utilisateur existant.
+     */
     @Override
     public User update(String id, UserRequest request) {
         Optional<Patient> patient = userRepository.findById(id);
@@ -102,6 +123,9 @@ public class UserServiceImpl implements IUserService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur non trouve");
     }
 
+    /**
+     * Supprime utilisateur.
+     */
     @Override
     public void delete(String id) {
         userRepository.deleteById(id);

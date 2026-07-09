@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation service consultation.
+ */
 @Service
 public class ConsultationServiceImpl implements IConsultationService {
 
@@ -36,6 +39,9 @@ public class ConsultationServiceImpl implements IConsultationService {
     @Autowired
     private PrescriptionMapper prescriptionMapper;
 
+    /**
+     * Cree consultation avec patient et medecin existants.
+     */
     @Override
     public ConsultationDTO createConsultation(ConsultationDTO consultationDTO) {
         Patient patient = findPatientByNumeroSS(consultationDTO.getPatientNumeroSS());
@@ -44,12 +50,18 @@ public class ConsultationServiceImpl implements IConsultationService {
         return consultationMapper.toDto(consultationRepository.save(consultation));
     }
 
+    /**
+     * Cherche consultation par numero.
+     */
     @Override
     public Optional<ConsultationDTO> getConsultationByNumeroConsultation(String numeroConsultation) {
         return consultationRepository.findByNumeroConsultation(numeroConsultation)
                 .map(consultationMapper::toDto);
     }
 
+    /**
+     * Retourne toutes consultations.
+     */
     @Override
     public List<ConsultationDTO> getAllConsultations() {
         return consultationRepository.findAll().stream()
@@ -57,6 +69,9 @@ public class ConsultationServiceImpl implements IConsultationService {
                 .toList();
     }
 
+    /**
+     * Retourne consultations d'un patient.
+     */
     @Override
     public List<ConsultationDTO> getConsultationsByPatient(String numeroSS) {
         return consultationRepository.findByPatientAssiste_NumeroSS(numeroSS).stream()
@@ -64,6 +79,9 @@ public class ConsultationServiceImpl implements IConsultationService {
                 .toList();
     }
 
+    /**
+     * Retourne consultations d'un medecin.
+     */
     @Override
     public List<ConsultationDTO> getConsultationsByMedecin(String matricule) {
         return consultationRepository.findByMedecinDonne_Matricule(matricule).stream()
@@ -71,6 +89,9 @@ public class ConsultationServiceImpl implements IConsultationService {
                 .toList();
     }
 
+    /**
+     * Met a jour consultation existante.
+     */
     @Override
     public ConsultationDTO updateConsultation(String numeroConsultation, ConsultationDTO consultationDetails) {
         Optional<Consultation> existingConsultation = consultationRepository.findByNumeroConsultation(numeroConsultation);
@@ -84,6 +105,9 @@ public class ConsultationServiceImpl implements IConsultationService {
         return null;
     }
 
+    /**
+     * Supprime consultation par numero.
+     */
     @Override
     public boolean deleteConsultation(String numeroConsultation) {
         if (consultationRepository.existsByNumeroConsultation(numeroConsultation)) {
@@ -93,6 +117,9 @@ public class ConsultationServiceImpl implements IConsultationService {
         return false;
     }
 
+    /**
+     * Ajoute prescription a consultation.
+     */
     @Override
     public ConsultationDTO addPrescriptionToConsultation(String numeroConsultation, PrescriptionDTO prescriptionDTO) {
         Optional<Consultation> consultation = consultationRepository.findByNumeroConsultation(numeroConsultation);
