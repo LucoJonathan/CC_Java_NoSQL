@@ -1,7 +1,7 @@
 package com.jonathanluco.doctorapp.security;
 
-import com.jonathanluco.doctorapp.service.CustomUserDetailsService;
-import com.jonathanluco.doctorapp.service.JwtService;
+import com.jonathanluco.doctorapp.service.ICustomUserDetailsService;
+import com.jonathanluco.doctorapp.service.IJwtService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,10 +23,10 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
-    private final CustomUserDetailsService userDetailsService;
+    private final IJwtService jwtService;
+    private final ICustomUserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter(JwtService jwtService, CustomUserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(IJwtService jwtService, ICustomUserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }

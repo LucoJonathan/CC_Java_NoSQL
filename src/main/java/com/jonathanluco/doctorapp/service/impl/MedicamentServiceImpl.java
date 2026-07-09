@@ -1,20 +1,18 @@
-package com.jonathanluco.doctorapp.service;
+package com.jonathanluco.doctorapp.service.impl;
 
 import com.jonathanluco.doctorapp.dto.MedicamentDTO;
 import com.jonathanluco.doctorapp.mapper.MedicamentMapper;
 import com.jonathanluco.doctorapp.model.Medicament;
 import com.jonathanluco.doctorapp.repository.MedicamentRepository;
+import com.jonathanluco.doctorapp.service.IMedicamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Service metier pour la gestion des medicaments.
- */
 @Service
-public class MedicamentService {
+public class MedicamentServiceImpl implements IMedicamentService {
 
     @Autowired
     private MedicamentRepository medicamentRepository;
@@ -22,27 +20,32 @@ public class MedicamentService {
     @Autowired
     private MedicamentMapper medicamentMapper;
 
+    @Override
     public MedicamentDTO createMedicament(MedicamentDTO medicamentDTO) {
         Medicament medicament = medicamentMapper.toModel(medicamentDTO);
         return medicamentMapper.toDto(medicamentRepository.save(medicament));
     }
 
+    @Override
     public Optional<MedicamentDTO> getMedicamentByCode(String code) {
         return Optional.ofNullable(medicamentRepository.findByCode(code))
                 .map(medicamentMapper::toDto);
     }
 
+    @Override
     public Optional<MedicamentDTO> getMedicamentById(String id) {
         return medicamentRepository.findById(id)
                 .map(medicamentMapper::toDto);
     }
 
+    @Override
     public List<MedicamentDTO> getAllMedicaments() {
         return medicamentRepository.findAll().stream()
                 .map(medicamentMapper::toDto)
                 .toList();
     }
 
+    @Override
     public MedicamentDTO updateMedicament(String code, MedicamentDTO medicamentDetails) {
         Medicament medicament = medicamentRepository.findByCode(code);
         if (medicament != null) {
@@ -52,6 +55,7 @@ public class MedicamentService {
         return null;
     }
 
+    @Override
     public boolean deleteMedicament(String code) {
         Medicament medicament = medicamentRepository.findByCode(code);
         if (medicament != null) {

@@ -1,4 +1,4 @@
-package com.jonathanluco.doctorapp.service;
+package com.jonathanluco.doctorapp.service.impl;
 
 import com.jonathanluco.doctorapp.dto.PatientDTO;
 import com.jonathanluco.doctorapp.exception.DuplicateResourceException;
@@ -7,6 +7,7 @@ import com.jonathanluco.doctorapp.model.Medecin;
 import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.repository.MedecinRepository;
 import com.jonathanluco.doctorapp.repository.PatientRepository;
+import com.jonathanluco.doctorapp.service.IPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,11 +20,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-/**
- * Service metier pour la gestion des patients.
- */
 @Service
-public class PatientService {
+public class PatientServiceImpl implements IPatientService {
 
     @Autowired
     private PatientRepository patientRepository;
@@ -37,6 +35,7 @@ public class PatientService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Override
     public PatientDTO createPatient(PatientDTO patientDTO) {
         ensureNumeroSSIsAvailable(patientDTO.getNumeroSS(), null);
         ensureEmailIsAvailable(patientDTO.getEmail(), null);
@@ -45,27 +44,32 @@ public class PatientService {
         return patientMapper.toDto(patientRepository.save(patient));
     }
 
+    @Override
     public Optional<PatientDTO> getPatientByNumeroSS(String numeroSS) {
         return Optional.ofNullable(patientRepository.findByNumeroSS(numeroSS))
                 .map(patientMapper::toDto);
     }
 
+    @Override
     public Optional<PatientDTO> getPatientById(String id) {
         return patientRepository.findById(id)
                 .map(patientMapper::toDto);
     }
 
+    @Override
     public List<PatientDTO> getAllPatients() {
         return patientRepository.findAll().stream()
                 .map(patientMapper::toDto)
                 .toList();
     }
 
+    @Override
     public Page<PatientDTO> getPatientsPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("nomPatient").ascending());
         return patientMapper.toDtoPage(patientRepository.findAllBy(pageable));
     }
 
+    @Override
     public PatientDTO updatePatient(String numeroSS, PatientDTO patientDetails) {
         Patient patient = patientRepository.findByNumeroSS(numeroSS);
         if (patient != null) {
@@ -77,6 +81,7 @@ public class PatientService {
         return null;
     }
 
+    @Override
     public boolean deletePatient(String numeroSS) {
         Patient patient = patientRepository.findByNumeroSS(numeroSS);
         if (patient != null) {
@@ -89,11 +94,11 @@ public class PatientService {
     private void ensureEmailIsAvailable(String email, String currentId) {
         Patient existingPatient = patientRepository.findByEmail(email);
         if (existingPatient != null && isDifferentEntity(existingPatient.getId(), currentId)) {
-            throw new DuplicateResourceException("Cet email existe déjà");
+            throw new DuplicateResourceException("Cet email existe deja");
         }
         Medecin existingMedecin = medecinRepository.findByEmail(email);
         if (existingMedecin != null && isDifferentEntity(existingMedecin.getId(), currentId)) {
-            throw new DuplicateResourceException("Cet email existe déjà");
+            throw new DuplicateResourceException("Cet email existe deja");
         }
     }
 

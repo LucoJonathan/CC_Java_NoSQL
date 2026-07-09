@@ -2,7 +2,7 @@ package com.jonathanluco.doctorapp.controller;
 
 import com.jonathanluco.doctorapp.dto.ConsultationDTO;
 import com.jonathanluco.doctorapp.dto.PrescriptionDTO;
-import com.jonathanluco.doctorapp.service.ConsultationService;
+import com.jonathanluco.doctorapp.service.IConsultationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class ConsultationController {
 
     @Autowired
-    private ConsultationService consultationService;
+    private IConsultationService consultationService;
 
     @PostMapping
     public ResponseEntity<ConsultationDTO> createConsultation(@Valid @RequestBody ConsultationDTO consultationDTO) {

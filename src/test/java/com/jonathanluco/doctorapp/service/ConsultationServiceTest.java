@@ -10,6 +10,7 @@ import com.jonathanluco.doctorapp.model.Medecin;
 import com.jonathanluco.doctorapp.repository.ConsultationRepository;
 import com.jonathanluco.doctorapp.repository.MedecinRepository;
 import com.jonathanluco.doctorapp.repository.PatientRepository;
+import com.jonathanluco.doctorapp.service.impl.ConsultationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +50,7 @@ class ConsultationServiceTest {
     private PrescriptionMapper prescriptionMapper;
 
     @InjectMocks
-    private ConsultationService consultationService;
+    private ConsultationServiceImpl consultationService;
 
     private Consultation consultation;
     private Patient patient;

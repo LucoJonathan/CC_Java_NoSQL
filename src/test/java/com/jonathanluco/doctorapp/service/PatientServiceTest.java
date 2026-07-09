@@ -6,6 +6,7 @@ import com.jonathanluco.doctorapp.mapper.PatientMapper;
 import com.jonathanluco.doctorapp.repository.MedecinRepository;
 import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.repository.PatientRepository;
+import com.jonathanluco.doctorapp.service.impl.PatientServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +47,7 @@ class PatientServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private PatientService patientService;
+    private PatientServiceImpl patientService;
 
     private Patient patient;
     private PatientDTO patientDTO;

@@ -1,7 +1,7 @@
 package com.jonathanluco.doctorapp.controller;
 
 import com.jonathanluco.doctorapp.dto.PatientDTO;
-import com.jonathanluco.doctorapp.service.PatientService;
+import com.jonathanluco.doctorapp.service.IPatientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +24,7 @@ import java.util.Optional;
 public class PatientController {
 
     @Autowired
-    private PatientService patientService;
+    private IPatientService patientService;
 
     /**
      * Crée un nouveau patient.

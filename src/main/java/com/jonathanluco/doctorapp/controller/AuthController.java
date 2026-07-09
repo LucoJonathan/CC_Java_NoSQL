@@ -3,8 +3,8 @@ package com.jonathanluco.doctorapp.controller;
 import com.jonathanluco.doctorapp.dto.LoginRequest;
 import com.jonathanluco.doctorapp.dto.LoginResponse;
 import com.jonathanluco.doctorapp.model.User;
-import com.jonathanluco.doctorapp.service.JwtService;
-import com.jonathanluco.doctorapp.service.UserService;
+import com.jonathanluco.doctorapp.service.IJwtService;
+import com.jonathanluco.doctorapp.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final UserService userService;
-    private final JwtService jwtService;
+    private final IUserService userService;
+    private final IJwtService jwtService;
 
-    public AuthController(UserService userService, JwtService jwtService) {
+    public AuthController(IUserService userService, IJwtService jwtService) {
         this.userService = userService;
         this.jwtService = jwtService;
     }

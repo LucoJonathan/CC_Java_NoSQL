@@ -1,7 +1,7 @@
 package com.jonathanluco.doctorapp.controller;
 
 import com.jonathanluco.doctorapp.dto.MedecinDTO;
-import com.jonathanluco.doctorapp.service.MedecinService;
+import com.jonathanluco.doctorapp.service.IMedecinService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class MedecinController {
 
     @Autowired
-    private MedecinService medecinService;
+    private IMedecinService medecinService;
 
     @PostMapping
     public ResponseEntity<MedecinDTO> createMedecin(@Valid @RequestBody MedecinDTO medecinDTO) {

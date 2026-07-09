@@ -1,7 +1,7 @@
 package com.jonathanluco.doctorapp.controller;
 
 import com.jonathanluco.doctorapp.dto.MedicamentDTO;
-import com.jonathanluco.doctorapp.service.MedicamentService;
+import com.jonathanluco.doctorapp.service.IMedicamentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class MedicamentController {
 
     @Autowired
-    private MedicamentService medicamentService;
+    private IMedicamentService medicamentService;
 
     @PostMapping
     public ResponseEntity<MedicamentDTO> createMedicament(@Valid @RequestBody MedicamentDTO medicamentDTO) {

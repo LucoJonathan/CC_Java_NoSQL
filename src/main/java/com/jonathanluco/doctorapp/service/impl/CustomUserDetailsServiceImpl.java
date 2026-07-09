@@ -1,27 +1,24 @@
-package com.jonathanluco.doctorapp.service;
+package com.jonathanluco.doctorapp.service.impl;
 
-import com.jonathanluco.doctorapp.model.User;
-import com.jonathanluco.doctorapp.model.Patient;
 import com.jonathanluco.doctorapp.model.Medecin;
-import com.jonathanluco.doctorapp.repository.PatientRepository;
+import com.jonathanluco.doctorapp.model.Patient;
+import com.jonathanluco.doctorapp.model.User;
 import com.jonathanluco.doctorapp.repository.MedecinRepository;
+import com.jonathanluco.doctorapp.repository.PatientRepository;
 import com.jonathanluco.doctorapp.repository.UserRepository;
+import com.jonathanluco.doctorapp.service.ICustomUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-/**
- * Implementation UserDetailsService basee sur les collections MongoDB.
- */
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsServiceImpl implements ICustomUserDetailsService {
 
     private final PatientRepository patientRepository;
     private final MedecinRepository medecinRepository;
     private final UserRepository userRepository;
 
-    public CustomUserDetailsService(
+    public CustomUserDetailsServiceImpl(
             PatientRepository patientRepository,
             MedecinRepository medecinRepository,
             UserRepository userRepository

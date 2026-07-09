@@ -3,7 +3,7 @@ package com.jonathanluco.doctorapp.controller;
 import com.jonathanluco.doctorapp.dto.UserRequest;
 import com.jonathanluco.doctorapp.dto.UserResponse;
 import com.jonathanluco.doctorapp.model.User;
-import com.jonathanluco.doctorapp.service.UserService;
+import com.jonathanluco.doctorapp.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +17,9 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService userService;
+    private final IUserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 

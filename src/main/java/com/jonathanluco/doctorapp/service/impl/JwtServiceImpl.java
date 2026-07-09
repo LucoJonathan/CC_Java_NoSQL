@@ -1,5 +1,6 @@
-package com.jonathanluco.doctorapp.service;
+package com.jonathanluco.doctorapp.service.impl;
 
+import com.jonathanluco.doctorapp.service.IJwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -11,16 +12,13 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
-/**
- * Service utilitaire pour generer et valider les tokens JWT.
- */
 @Service
-public class JwtService {
+public class JwtServiceImpl implements IJwtService {
 
     private final SecretKey secretKey;
     private final long expirationMs;
 
-    public JwtService(
+    public JwtServiceImpl(
             @Value("${app.jwt.secret}") String secret,
             @Value("${app.jwt.expiration-ms}") long expirationMs
     ) {
@@ -28,6 +26,7 @@ public class JwtService {
         this.expirationMs = expirationMs;
     }
 
+    @Override
     public String generateToken(UserDetails userDetails) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + expirationMs);
@@ -40,10 +39,12 @@ public class JwtService {
                 .compact();
     }
 
+    @Override
     public String extractUsername(String token) {
         return parseClaims(token).getSubject();
     }
 
+    @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = extractUsername(token);
         Date expiration = parseClaims(token).getExpiration();
