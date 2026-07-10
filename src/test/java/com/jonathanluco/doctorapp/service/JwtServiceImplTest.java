@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("JwtService Tests")
-class JwtServiceTest {
+class JwtServiceImplTest {
 
     private final JwtServiceImpl jwtService = new JwtServiceImpl(
             "12345678901234567890123456789012",

@@ -2,7 +2,6 @@ package com.jonathanluco.doctorapp.service;
 
 import com.jonathanluco.doctorapp.model.Medecin;
 import com.jonathanluco.doctorapp.model.Patient;
-import com.jonathanluco.doctorapp.model.User;
 import com.jonathanluco.doctorapp.repository.MedecinRepository;
 import com.jonathanluco.doctorapp.repository.PatientRepository;
 import com.jonathanluco.doctorapp.repository.UserRepository;
@@ -23,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("CustomUserDetailsService Tests")
-class CustomUserDetailsServiceTest {
+class CustomUserDetailsServiceImplTest {
 
     @Mock
     private PatientRepository patientRepository;

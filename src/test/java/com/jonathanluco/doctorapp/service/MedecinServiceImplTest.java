@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
  * Tests unitaires pour MedecinService.
  */
 @DisplayName("MedecinService Tests")
-class MedecinServiceTest {
+class MedecinServiceImplTest {
 
     @Mock
     private MedecinRepository medecinRepository;

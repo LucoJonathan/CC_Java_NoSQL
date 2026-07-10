@@ -24,7 +24,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
@@ -32,7 +31,7 @@ import static org.mockito.Mockito.*;
  * Teste les opérations CRUD des consultations et la gestion des prescriptions.
  */
 @DisplayName("ConsultationService Tests")
-class ConsultationServiceTest {
+class ConsultationServiceImplTest {
 
     @Mock
     private ConsultationRepository consultationRepository;

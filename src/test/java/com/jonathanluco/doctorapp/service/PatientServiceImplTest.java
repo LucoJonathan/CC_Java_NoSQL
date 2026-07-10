@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
  * Teste les opérations CRUD des patients.
  */
 @DisplayName("PatientService Tests")
-class PatientServiceTest {
+class PatientServiceImplTest {
 
     @Mock
     private PatientRepository patientRepository;
