@@ -57,4 +57,9 @@ public class Medecin extends User {
     public void setNomMedecin(String nomMedecin) {
         this.nomMedecin = nomMedecin;
     }
+
+    @Override
+    public Role getRole() {
+        return Role.MEDECIN;
+    }
 }

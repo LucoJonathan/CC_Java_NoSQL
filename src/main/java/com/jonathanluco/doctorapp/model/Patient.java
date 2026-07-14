@@ -57,4 +57,9 @@ public class Patient extends User {
     public void setNomPatient(String nomPatient) {
         this.nomPatient = nomPatient;
     }
+
+    @Override
+    public Role getRole() {
+        return Role.PATIENT;
+    }
 }

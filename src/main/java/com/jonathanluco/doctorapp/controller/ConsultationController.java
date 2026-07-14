@@ -6,6 +6,7 @@ import com.jonathanluco.doctorapp.service.IConsultationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +14,13 @@ import java.util.Optional;
 
 /**
  * Controleur REST pour la gestion des consultations.
+ *
+ * Acces reserve au role MEDECIN, sauf la recuperation d'une consultation
+ * par son numero qui est aussi accessible au role PATIENT.
  */
 @RestController
 @RequestMapping("/api/consultations")
+@PreAuthorize("hasRole('MEDECIN')")
 public class ConsultationController {
 
     @Autowired
@@ -27,6 +32,7 @@ public class ConsultationController {
     }
 
     @GetMapping("/{numeroConsultation}")
+    @PreAuthorize("hasAnyRole('MEDECIN', 'PATIENT')")
     public ResponseEntity<ConsultationDTO> getConsultationByNumeroConsultation(@PathVariable String numeroConsultation) {
         Optional<ConsultationDTO> consultation = consultationService.getConsultationByNumeroConsultation(numeroConsultation);
         return consultation.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());

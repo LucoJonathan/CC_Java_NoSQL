@@ -34,11 +34,13 @@ class AuthControllerTest {
     void loginShouldReturnToken() {
         Patient user = new Patient("1", "Jean", "j@example.com", "jean", "pwd");
         when(userService.authenticate("j@example.com", "Password1!")).thenReturn(user);
-        when(jwtService.generateToken(org.mockito.ArgumentMatchers.any(UserDetails.class))).thenReturn("token");
+        when(jwtService.generateToken(org.mockito.ArgumentMatchers.any(UserDetails.class), org.mockito.ArgumentMatchers.anyMap()))
+                .thenReturn("token");
 
         var response = controller.login(new LoginRequest("j@example.com", "Password1!"));
 
         assertEquals("token", response.token());
         assertEquals("Bearer", response.type());
+        assertEquals("PATIENT", response.role());
     }
 }

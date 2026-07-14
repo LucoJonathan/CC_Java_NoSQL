@@ -69,4 +69,10 @@ public abstract class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    /**
+     * Retourne le role applicatif de l'utilisateur (MEDECIN ou PATIENT).
+     * Chaque sous-classe (Medecin, Patient) definit son propre role.
+     */
+    public abstract Role getRole();
 }

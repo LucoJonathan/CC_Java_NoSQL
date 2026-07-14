@@ -31,10 +31,10 @@ public class AuthController {
         UserDetails userDetails = org.springframework.security.core.userdetails.User
                 .withUsername(user.getEmail())
                 .password(user.getPassword())
-                .authorities("ROLE_USER")
+                .authorities("ROLE_" + user.getRole().name())
                 .build();
 
-        String token = jwtService.generateToken(userDetails);
-        return new LoginResponse(token, "Bearer");
+        String token = jwtService.generateToken(userDetails, java.util.Map.of("role", user.getRole().name()));
+        return new LoginResponse(token, "Bearer", user.getRole().name());
     }
 }
